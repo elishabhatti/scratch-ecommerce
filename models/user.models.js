@@ -4,7 +4,7 @@ mongoose.connect("mongodb://127.0.0.1/scratch");
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String },
+    fullname: { type: String },
     email: { type: String },
     password: { type: String },
     address: { type: String },
