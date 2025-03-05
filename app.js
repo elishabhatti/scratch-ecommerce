@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import { userModel } from "./models/user.models.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { MongoClient } from "mongodb";
 
 const app = express();
 app.use(express.json());
@@ -10,6 +11,23 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+const uri = "mongodb://127.0.0.1/scratch"; // Your MongoDB URI
+const client = new MongoClient(uri);
+
+async function fetchProducts() {
+  try {
+    await client.connect();
+    const database = client.db("scratch");
+    const collection = database.collection("products");
+
+    const products = await collection.find({}).toArray(); // Get all products
+    return products;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+}
 
 const authenticateUser = async (req, res, next) => {
   try {
@@ -27,8 +45,13 @@ const authenticateUser = async (req, res, next) => {
 app.get("/", (req, res) => {
   res.render("index");
 });
-app.get("/shop", authenticateUser, (req, res) => {
-  res.render("shop", { user: req.user });
+app.get("/shop", authenticateUser, async (req, res) => {
+  try {
+    const products = await fetchProducts()
+    res.render("shop", { user: req.user, products });
+  } catch (error) {
+    res.status(500).send("error leadning shop page")
+  }
 });
 
 app.post("/register", async (req, res) => {
