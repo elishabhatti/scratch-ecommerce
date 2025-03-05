@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 app.get("/shop", authenticateUser, (req, res) => {
-  res.render("shop", {user: req.user});
+  res.render("shop", { user: req.user });
 });
 
 app.post("/register", async (req, res) => {
@@ -55,6 +55,26 @@ app.post("/register", async (req, res) => {
     res.redirect("/shop");
   } catch (error) {
     res.status(500).send(error.message);
+  }
+});
+app.post("/login", async (req, res) => {
+  try {
+    let { email, password } = req.body;
+
+    let user = await userModel.findOne({ email });
+    if (!user) return res.send("Email or Password is incorrect");
+
+    bcrypt.compare(password, user.password, (err, result) => {
+      if (result) {
+        const token = jwt.sign({ email: user.email, id: user._id }, "secret");
+        res.cookie("token", token, { httpOnly: true });
+        res.redirect("/shop");
+      } else {
+        return res.status(401).send("Email or password incorrect");
+      }
+    });
+  } catch (error) {
+    res.send(error.message);
   }
 });
 
