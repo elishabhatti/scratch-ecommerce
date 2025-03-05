@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import { ObjectId } from "mongodb";
 import { userModel } from "./models/user.models.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -45,12 +46,33 @@ const authenticateUser = async (req, res, next) => {
 app.get("/", (req, res) => {
   res.render("index");
 });
+
 app.get("/shop", authenticateUser, async (req, res) => {
   try {
-    const products = await fetchProducts()
+    const products = await fetchProducts();
     res.render("shop", { user: req.user, products });
   } catch (error) {
-    res.status(500).send("error leadning shop page")
+    res.status(500).send("error leadning shop page");
+  }
+});
+
+app.get("/product/:id", async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db("scratch");
+    const collection = database.collection("products");
+
+    const productId = req.params.id;
+    const product = await collection.findOne({ _id: new ObjectId(productId) });
+
+    if (!product) {
+      return res.status(404).send("Product not found");
+    }
+
+    res.render("product-details", { product, user: req.user });
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    res.status(500).send("Error loading product details");
   }
 });
 
