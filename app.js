@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("HI");
+  res.render("index");
 });
 
 app.listen(3000);

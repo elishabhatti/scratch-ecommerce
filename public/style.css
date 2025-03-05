@@ -1,0 +1,9 @@
+* {
+  font-family: "Jersey 15";
+}
+body {
+  padding: 2rem;
+  font-size: 18px;
+  color: white;
+  background-color: black;
+}
