@@ -1,0 +1,39 @@
+[
+    {
+      "title": "Stunning Shopping Bag",
+      "price": 12.00,
+      "originalPrice": 15.00,
+      "image": "image1.png"
+    },
+    {
+      "title": "Elegant Tote Bag",
+      "price": 18.00,
+      "originalPrice": 22.00,
+      "image": "image2.png"
+    },
+    {
+      "title": "Classic Paper Bag",
+      "price": 10.00,
+      "originalPrice": 13.00,
+      "image": "image3.png"
+    },
+    {
+      "title": "Luxury Gift Bag",
+      "price": 25.00,
+      "originalPrice": 30.00,
+      "image": "image4.png"
+    },
+    {
+      "title": "Eco-Friendly Shopping Bag",
+      "price": 14.50,
+      "originalPrice": 18.00,
+      "image": "image5.png"
+    },
+    {
+      "title": "Minimalist Shopper Bag",
+      "price": 20.00,
+      "originalPrice": 25.00,
+      "image": "image6.png"
+    }
+  ]
+  
