@@ -4,9 +4,20 @@ import { ObjectId } from "mongodb";
 import { userModel } from "./models/user.models.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { bagModel } from "./models/products.models.js";
 import { MongoClient } from "mongodb";
+import session from "express-session";
 
 const app = express();
+app.use(
+  session({
+    secret: "shhhh",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  })
+);
+
 app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -55,6 +66,14 @@ app.get("/shop", authenticateUser, async (req, res) => {
     res.status(500).send("error leadning shop page");
   }
 });
+app.get("/buyed-products", authenticateUser, async (req, res) => {
+  try {
+    const products = await fetchProducts();
+    res.render("buyed-products", { user: req.user, products });
+  } catch (error) {
+    res.status(500).send("error leadning shop page");
+  }
+});
 
 app.get("/product/:id", async (req, res) => {
   try {
@@ -63,6 +82,12 @@ app.get("/product/:id", async (req, res) => {
     const collection = database.collection("products");
 
     const productId = req.params.id;
+
+    // Validate the ObjectId format
+    if (!ObjectId.isValid(productId)) {
+      return res.status(400).send("Invalid product ID format");
+    }
+
     const product = await collection.findOne({ _id: new ObjectId(productId) });
 
     if (!product) {
@@ -75,6 +100,7 @@ app.get("/product/:id", async (req, res) => {
     res.status(500).send("Error loading product details");
   }
 });
+
 
 app.post("/register", async (req, res) => {
   try {
@@ -102,6 +128,47 @@ app.post("/register", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+app.post("/buy-bag", authenticateUser, async (req, res) => {
+  try {
+    let { name, price, quantity, paymentMethod, totalAmount } = req.body;
+    let userId = req.user._id;
+    
+    if (!userId) {
+      return res.status(401).json({ error: "User not authenticated" });
+    }
+    if (!name || !price || !quantity || !paymentMethod || !totalAmount) {
+      return res.status(400).json({ error: "All fields are required." });
+    }
+
+    price = parseFloat(price);
+    quantity = parseInt(quantity, 10);
+    totalAmount = parseFloat(totalAmount);
+
+    if (isNaN(quantity) || quantity <= 0) {
+      return res.status(400).json({ error: "Quantity must be a positive number." });
+    }
+    let newOrder = {
+      productId: new ObjectId(),
+      name,
+      price,
+      quantity,
+      totalAmount,
+      paymentMethod,
+      orderDate: new Date(),
+      status: "pending",
+    };
+    await userModel.findByIdAndUpdate(
+      userId,
+      { $push: { orders: newOrder } },
+      { new: true } 
+    );
+    res.status(201).redirect("/buyed-products");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 app.post("/login", async (req, res) => {
   try {
     let { email, password } = req.body;
@@ -113,6 +180,7 @@ app.post("/login", async (req, res) => {
       if (result) {
         const token = jwt.sign({ email: user.email, id: user._id }, "secret");
         res.cookie("token", token, { httpOnly: true });
+        req.session.userId = user._id;
         res.redirect("/shop");
       } else {
         return res.status(401).send("Email or password incorrect");
@@ -121,6 +189,10 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     res.send(error.message);
   }
+});
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("token").redirect("/");
 });
 
 app.listen(3000);
