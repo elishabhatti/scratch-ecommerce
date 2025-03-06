@@ -5,7 +5,9 @@ const bagSchema = new mongoose.Schema(
     name: { type: String, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" }, 
+    totalAmount: { type: Number, required: true },
+    paymentMethod: { type: String, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   },
   { timestamps: true }
 );
