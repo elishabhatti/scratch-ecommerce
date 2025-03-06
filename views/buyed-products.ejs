@@ -51,26 +51,58 @@
       <a href="/shop">Go Back</a>
     </div>
     <h1 class="text-4xl text-center mt-3">Your Orders:</h1>
-    <div class="mt-5 space-y-5">
-      <% if (orders.length > 0) { %> <% orders.forEach((order) => { %>
-      <div class="p-5 border border-gray-400 rounded-md">
-        <h2 class="text-2xl font-bold"><%= order.title %></h2>
-        <img
-          class="w-40 h-40 object-cover mt-2"
-          src="<%= order.image %>"
-          alt="Product Image"
-        />
-        <p>Quantity: <%= order.quantity %></p>
-        <p>Order Date: <%= new Date(order.orderDate).toLocaleDateString() %></p>
-        <p>
-          Status:
-          <span class="text-green-400 font-bold"><%= order.status %></span>
-        </p>
-        <p>Order ID: <%= order._id %></p>
+    <div class="flex justify-center">
+      <div class="w-[20%]">
+        <p class="text-2xl">Trending Products</p>
+        <p class="text-2xl">Recently added Product</p>
       </div>
-      <% }) %> <% } else { %>
-      <p class="text-center text-gray-300 text-xl">No orders yet.</p>
-      <% } %>
+      <div class="mt-5 space-y-5 w-[80%]">
+        <% if (orders.length > 0) { %> <% orders.forEach((order) => { %>
+        <div class="flex justify-between items-center">
+          <div>
+            <p>Product Id: <%= order.productId %></p>
+          </div>
+          <div>
+            <p>
+              Status:
+              <span class="text-green-400 font-bold"><%= order.status %></span>
+            </p>
+          </div>
+          <div>
+            <p>
+              Order Date: <%= new Date(order.orderDate).toLocaleDateString() %>
+            </p>
+          </div>
+        </div>
+        <div class="w-full flex gap-5 h-[120px] border-2 border-white">
+          <div class="h-full">
+            <img class="h-full" src="<%= order.image %>" alt="" />
+          </div>
+          <div class="flex w-full justify-between items-center">
+            <div>
+              <p>Title: <%= order.title %></p>
+              <p>Quantity: <%= order.quantity %></p>
+              <p>Payment Method: <%= order.paymentMethod %></p>
+              <p>Total Amount: <%= (order.totalAmount).toFixed(2) %>$</p>
+            </div>
+            <div class="flex flex-col">
+              <button
+                class="px-2 py-1 mx-4 my-1 bg-white text-black rounded-sm"
+              >
+                Delete
+              </button>
+              <button
+                class="px-2 py-1 mx-4 my-1 bg-white text-black rounded-sm"
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+        <% }) %> <% } else { %>
+        <p class="text-center text-gray-300 text-xl">No orders yet.</p>
+        <% } %>
+      </div>
     </div>
 
     <script
