@@ -62,7 +62,8 @@ app.get("/", (req, res) => {
 app.get("/shop", authenticateUser, async (req, res) => {
   try {
     const products = await fetchProducts();
-    res.render("shop", { user: req.user, products });
+    const orders =  await orderModel.find({userId : req.user._id})
+    res.render("shop", { user: req.user, products, orders });
   } catch (error) {
     res.status(500).send("Error loading shop page");
   }
