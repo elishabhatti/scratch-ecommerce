@@ -1,46 +1,46 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import { ObjectId } from "mongodb";
-import { userModel } from "./models/user.models.js";
+import { ObjectId, MongoClient } from "mongodb";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { bagModel } from "./models/products.models.js";
-import { MongoClient } from "mongodb";
 import session from "express-session";
+import { userModel } from "./models/user.models.js";
+import { orderModel } from "./models/order.models.js";
 
 const app = express();
+const uri = "mongodb://127.0.0.1/scratch"; // Your MongoDB URI
+const client = new MongoClient(uri);
+
+await client.connect(); // Connect once globally
+const database = client.db("scratch");
+const productsCollection = database.collection("bags");
+
+// Middleware
 app.use(
   session({
-    secret: "shhhh",
+    secret: "secret",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false },
+    cookie: { secure: process.env.NODE_ENV === "production" },
   })
 );
-
 app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const uri = "mongodb://127.0.0.1/scratch"; // Your MongoDB URI
-const client = new MongoClient(uri);
-
+// Function to fetch products
 async function fetchProducts() {
   try {
-    await client.connect();
-    const database = client.db("scratch");
-    const collection = database.collection("products");
-
-    const products = await collection.find({}).toArray(); // Get all products
-    return products;
+    return await productsCollection.find({}).toArray();
   } catch (error) {
     console.error("Error fetching products:", error);
     return [];
   }
 }
 
+// Middleware for authentication
 const authenticateUser = async (req, res, next) => {
   try {
     const token = req.cookies.token;
@@ -54,6 +54,7 @@ const authenticateUser = async (req, res, next) => {
   }
 };
 
+// Routes
 app.get("/", (req, res) => {
   res.render("index");
 });
@@ -63,34 +64,27 @@ app.get("/shop", authenticateUser, async (req, res) => {
     const products = await fetchProducts();
     res.render("shop", { user: req.user, products });
   } catch (error) {
-    res.status(500).send("error leadning shop page");
+    res.status(500).send("Error loading shop page");
   }
 });
 
 app.get("/buyed-products", authenticateUser, async (req, res) => {
   try {
-    let user = await userModel.findById(req.user._id).select("orders");
-    res.render("buyed-products", { user: req.user, orders: user.orders });
+    let orders = await orderModel.find({ userId: req.user._id });
+    res.render("buyed-products", { user: req.user, orders });
   } catch (error) {
     console.error("Error loading buyed-products page:", error);
     res.status(500).send("Error loading buyed-products page");
   }
 });
 
-
 app.get("/product-details/:id", authenticateUser, async (req, res) => {
   try {
-    // Fetch all products
-    const products = await fetchProducts(); // Assuming this returns an array
+    const products = await fetchProducts();
+    const product = products.find((p) => p._id.equals(new ObjectId(req.params.id)));
 
-    // Find the specific product using `id`
-    const product = products.find(p => p._id.toString() === req.params.id);
+    if (!product) return res.status(404).send("Product not found");
 
-    if (!product) {
-      return res.status(404).send("Product not found");
-    }
-
-    // Ensure `req.user` is passed
     res.render("product-details", { user: req.user, product });
   } catch (error) {
     console.error("Error loading product details:", error);
@@ -98,17 +92,14 @@ app.get("/product-details/:id", authenticateUser, async (req, res) => {
   }
 });
 
-
-
 app.post("/register", async (req, res) => {
   try {
     let { fullname, email, password, address, contact } = req.body;
 
     let existingUser = await userModel.findOne({ email });
-    if (existingUser) return res.send("Try with differnt Email");
+    if (existingUser) return res.send("Try with a different Email");
 
-    const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
+    const hashPassword = await bcrypt.hash(password, 10);
 
     let user = await userModel.create({
       fullname,
@@ -126,15 +117,15 @@ app.post("/register", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
 app.post("/buy-bag", authenticateUser, async (req, res) => {
   try {
-    let { name, price, quantity, paymentMethod, totalAmount } = req.body;
+    let { productId, title, price, quantity, paymentMethod, totalAmount, image } = req.body;
     let userId = req.user._id;
-    
-    if (!userId) {
-      return res.status(401).json({ error: "User not authenticated" });
-    }
-    if (!name || !price || !quantity || !paymentMethod || !totalAmount) {
+
+    if (!userId) return res.status(401).json({ error: "User not authenticated" });
+
+    if (!productId || !title || !price || !quantity || !paymentMethod || !totalAmount || !image) {
       return res.status(400).json({ error: "All fields are required." });
     }
 
@@ -145,27 +136,23 @@ app.post("/buy-bag", authenticateUser, async (req, res) => {
     if (isNaN(quantity) || quantity <= 0) {
       return res.status(400).json({ error: "Quantity must be a positive number." });
     }
-    let newOrder = {
-      productId: new ObjectId(),
-      name,
+
+    await orderModel.create({
+      userId,
+      productId,
+      title,
+      image,
       price,
       quantity,
       totalAmount,
       paymentMethod,
-      orderDate: new Date(),
-      status: "pending",
-    };
-    await userModel.findByIdAndUpdate(
-      userId,
-      { $push: { orders: newOrder } },
-      { new: true } 
-    );
+    });
+
     res.status(201).redirect("/buyed-products");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
 
 app.post("/login", async (req, res) => {
   try {
@@ -174,18 +161,16 @@ app.post("/login", async (req, res) => {
     let user = await userModel.findOne({ email });
     if (!user) return res.send("Email or Password is incorrect");
 
-    bcrypt.compare(password, user.password, (err, result) => {
-      if (result) {
-        const token = jwt.sign({ email: user.email, id: user._id }, "secret");
-        res.cookie("token", token, { httpOnly: true });
-        req.session.userId = user._id;
-        res.redirect("/shop");
-      } else {
-        return res.status(401).send("Email or password incorrect");
-      }
-    });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).send("Email or password incorrect");
+
+    const token = jwt.sign({ email: user.email, id: user._id }, "secret");
+    res.cookie("token", token, { httpOnly: true });
+    req.session.userId = user._id;
+
+    res.redirect("/shop");
   } catch (error) {
-    res.send(error.message);
+    res.status(500).send(error.message);
   }
 });
 
@@ -193,4 +178,5 @@ app.post("/logout", (req, res) => {
   res.clearCookie("token").redirect("/");
 });
 
-app.listen(3000);
+// Start Server
+app.listen(3000, () => console.log("Server running on http://localhost:3000"));

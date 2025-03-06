@@ -32,70 +32,134 @@
       </h1>
       <div class="profile flex items-center">
         <div class="mx-2">
-          <h1 class="text-2xl leading-2">Hello <%= user.email %>!</h1>
+          <h1 class="text-2xl leading-2">
+            Hello <%= user?.fullname || "Guest" %>!
+          </h1>
           <form action="/logout" method="post">
             <button type="submit" class="text-2xl">Logout</button>
           </form>
         </div>
-        <div class="bg-white rounded-full flex justify-center items-center w-12 h-12">
-          <ion-icon class="text-3xl text-black" name="person-outline"></ion-icon>
+        <div
+          class="bg-white rounded-full flex justify-center items-center w-12 h-12"
+        >
+          <ion-icon
+            class="text-3xl text-black"
+            name="person-outline"
+          ></ion-icon>
         </div>
       </div>
     </div>
     <div class="flex mt-3 items-center">
-      <a href="/shop">Go Back</a>
+      <a href="/shop" class="underline">Go Back</a>
     </div>
     <h1 class="text-4xl text-center mt-3">Product Details:</h1>
     <div class="main-container mt-10 flex justify-center gap-5">
       <div>
-        <img class="w-[500px]" src="<%= product.image %>" alt="" />
+        <img class="w-[500px]" src="<%= product.image %>" alt="Product Image" />
       </div>
       <div class="w-[500px]">
         <h1 class="text-3xl">Price Breakdown</h1>
         <form action="/buy-bag" method="post">
-          <input readonly value="<%= product.image %>" type="url" name="image" >
-          <label>Name:</label>
-          <input value="<%= product.title %>" readonly type="text" name="name" class="w-full p-2 bg-gray-800 text-white border border-gray-600 rounded-md" />
+          Image Url<input
+            class="bg-transparent border-none"
+            name="image"
+            type="text"
+            value="<%= product.image%>"
+          />
+          <br />
+          User Id<input
+            class="bg-transparent border-none"
+            name="userId"
+            type="text"
+            value="<%= user._id%>"
+          />
+          <br />
+          Product Id<input
+            class="bg-transparent border-none"
+            name="productId"
+            type="text"
+            value="<%= product._id%>"
+          />
+          <br />
+          <label>Title:</label>
+          <input
+            class="bg-transparent border-none"
+            type="text"
+            value="<%= product.title %>"
+            name="title"
+          />
           <br />
           <label>Price:</label>
-          <input id="productPrice" value="<%= product.price.toFixed(2) %>" readonly type="text" name="price" class="w-full p-2 bg-gray-800 text-white border border-gray-600 rounded-md" />
+          <input
+            class="bg-transparent border-none"
+            type="text"
+            value="<%= (product.price).toFixed(2) %>"
+            name="price"
+          />
+          <br />
           <p>Shipping Fee: 3.00$</p>
           <p>Platform Fee: Free</p>
-          
-          <div class="mt-3">
-            <label>Quantity:</label>
-            <input id="quantityInput" class="w-full px-3 py-3 border-2 border-white text-white bg-gray-800" type="number" name="quantity" min="1" value="1" />
-          </div>
-          
-          <div class="mt-3">
-            <label>Payment Method</label>
-            <input class="w-full px-3 py-3 border-2 border-white text-white bg-gray-800" type="text" name="paymentMethod" required />
-          </div>
+          <label>Quantity:</label>
+          <input
+            class="text-white bg-transparent w-full border-2 px-3 py-3"
+            type="text"
+            placeholder="Enter Bags Quantity"
+            name="quantity"
+          />
+          <br />
+          <label>Payment Method:</label>
+          <input
+            class="text-white bg-transparent w-full border-2 px-3 py-3"
+            type="text"
+            placeholder="Enter Your Payment Method"
+            name="paymentMethod"
+          />
+          <br />
+          <label>Total Amount:</label>
+          <input
+            class="text-white bg-transparent"
+            type="text"
+            id="totalPrice"
+            readonly
+            value="<%= (product.price + 3).toFixed(2) %>"
+            name="totalAmount"
+          />
 
-          <label>Total Amount</label>
-          <input id="totalPrice" readonly type="text" value="<%= (product.price + 3).toFixed(2) %>" name="totalAmount" class="w-full p-2 bg-gray-800 text-white border border-gray-600 rounded-md" />
-          
-          <button type="submit" class="w-full px-3 py-3 bg-white text-black font-semibold mt-3 rounded-md hover:bg-gray-300">
-            Buy Now
-          </button>
+          <br />
+          <input
+            class="w-full bg-white px-3 py-2 text-black"
+            type="submit"
+            value="Buy Now"
+          />
         </form>
       </div>
     </div>
 
     <script>
-      const quantityInput = document.getElementById("quantityInput");
-      const productPrice = parseFloat(document.getElementById("productPrice").value);
-      const totalPriceInput = document.getElementById("totalPrice");
-      const shippingFee = 3.00;
+      const quantityInput = document.querySelector("input[name='quantity']");
+      const totalPriceInput = document.querySelector(
+        "input[name='totalAmount']"
+      );
+      const productPrice = parseFloat("<%= product.price %>") || 0;
+      const shippingFee = 3.0;
 
       quantityInput.addEventListener("input", () => {
         let quantity = parseInt(quantityInput.value) || 1;
         if (quantity < 1) quantity = 1;
-        totalPriceInput.value = (productPrice * quantity + shippingFee).toFixed(2);
+        quantityInput.value = quantity;
+        totalPriceInput.value = (productPrice * quantity + shippingFee).toFixed(
+          2
+        );
       });
     </script>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
   </body>
 </html>
