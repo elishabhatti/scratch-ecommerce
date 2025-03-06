@@ -66,40 +66,38 @@ app.get("/shop", authenticateUser, async (req, res) => {
     res.status(500).send("error leadning shop page");
   }
 });
+
 app.get("/buyed-products", authenticateUser, async (req, res) => {
   try {
-    const products = await fetchProducts();
-    res.render("buyed-products", { user: req.user, products });
+    let user = await userModel.findById(req.user._id).select("orders");
+    res.render("buyed-products", { user: req.user, orders: user.orders });
   } catch (error) {
-    res.status(500).send("error leadning shop page");
+    console.error("Error loading buyed-products page:", error);
+    res.status(500).send("Error loading buyed-products page");
   }
 });
 
-app.get("/product/:id", async (req, res) => {
+
+app.get("/product-details/:id", authenticateUser, async (req, res) => {
   try {
-    await client.connect();
-    const database = client.db("scratch");
-    const collection = database.collection("products");
+    // Fetch all products
+    const products = await fetchProducts(); // Assuming this returns an array
 
-    const productId = req.params.id;
-
-    // Validate the ObjectId format
-    if (!ObjectId.isValid(productId)) {
-      return res.status(400).send("Invalid product ID format");
-    }
-
-    const product = await collection.findOne({ _id: new ObjectId(productId) });
+    // Find the specific product using `id`
+    const product = products.find(p => p._id.toString() === req.params.id);
 
     if (!product) {
       return res.status(404).send("Product not found");
     }
 
-    res.render("product-details", { product, user: req.user });
+    // Ensure `req.user` is passed
+    res.render("product-details", { user: req.user, product });
   } catch (error) {
-    console.error("Error fetching product:", error);
+    console.error("Error loading product details:", error);
     res.status(500).send("Error loading product details");
   }
 });
+
 
 
 app.post("/register", async (req, res) => {
