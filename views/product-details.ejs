@@ -11,18 +11,7 @@
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./style.css" />
-    <style>
-      * {
-        font-family: "Jersey 15";
-      }
-      body {
-        padding: 2rem;
-        font-size: 18px;
-        color: white;
-        background-color: black;
-      }
-    </style>
+    <link rel="stylesheet" href="/style.css" /> 
   </head>
   <body>
     <div class="flex items-center justify-between">
@@ -32,7 +21,7 @@
           <h1 class="text-2xl leading-2">
             Hello <%= user?.fullname || "Guest" %>!
           </h1>
-    <%- include("partials/logo") %>
+    <%- include("partials/logout") %>
         </div>
         <div
           class="bg-white rounded-full flex justify-center items-center w-12 h-12"
@@ -47,35 +36,33 @@
     <div class="flex mt-3 items-center">
       <a class="underline" href="/shop">Go Back</a>
     </div>
-    <h1 class="text-4xl text-center mt-3">Product Details:</h1>
-    <div class="main-container mt-10 flex justify-center gap-5">
+    <h1 class="text-4xl text-center">Product Details:</h1>
+    <div class="main-container mt-5 flex justify-center gap-5">
       <div>
         <img class="w-[500px]" src="<%= product.image %>" alt="Product Image" />
       </div>
       <div class="w-[500px]">
-        <h1 class="text-3xl">Price Breakdown</h1>
-        <form action="/buy-bag" method="post">
-          Image Url<input
+        <h1 class="text-3xl mb-3">Price Breakdown</h1>
+        <form class="ml-5" action="/buy-bag" method="post">
+          <input
             class="bg-transparent border-none"
+            hidden
             name="image"
             type="text"
             value="<%= product.image%>"
           />
-          <br />
-          User Id<input
-            class="bg-transparent border-none"
+          <input
+          hidden
             name="userId"
             type="text"
             value="<%= user._id%>"
           />
-          <br />
-          Product Id<input
-            class="bg-transparent border-none"
+          <input
+          hidden
             name="productId"
             type="text"
             value="<%= product._id%>"
           />
-          <br />
           <label>Title:</label>
           <input
             class="bg-transparent border-none"
@@ -96,7 +83,7 @@
           <p>Platform Fee: Free</p>
           <label>Quantity:</label>
           <input
-            class="text-white bg-transparent w-full border-2 px-3 py-3"
+            class="text-white mb-3 bg-transparent w-full border-2 px-3 py-3"
             type="text"
             placeholder="Enter Bags Quantity"
             name="quantity"
@@ -104,7 +91,7 @@
           <br />
           <label>Payment Method:</label>
           <input
-            class="text-white bg-transparent w-full border-2 px-3 py-3"
+            class="text-white mb-3 bg-transparent w-full border-2 px-3 py-3"
             type="text"
             placeholder="Enter Your Payment Method"
             name="paymentMethod"
@@ -116,10 +103,9 @@
             type="text"
             id="totalPrice"
             readonly
-            value="<%= (product.price + 3).toFixed(2) %>"
+            value="<%= (product.price + 3).toFixed(2) %>$"
             name="totalAmount"
-          />
-
+            />
           <br />
           <input
             class="w-full bg-white px-3 py-2 text-black"
