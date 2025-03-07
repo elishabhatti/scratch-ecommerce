@@ -1,3 +1,4 @@
+
 export async function fetchProducts() {
     try {
       return await productsCollection.find({}).toArray();
