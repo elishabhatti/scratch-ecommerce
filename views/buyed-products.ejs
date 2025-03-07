@@ -61,9 +61,13 @@
           </div>
           <div>
             <p>
-              Order Date: <%= new Date(order.orderDate).toLocaleDateString() %>
+              Order Date: <%= order && order.orderDate ? new Date(order.orderDate).toLocaleDateString() : "N/A" %>
             </p>
-          </div>
+            <p>
+              Order Time: <%= order && order.orderDate ? new Date(order.orderDate).toLocaleTimeString() : "N/A" %>
+            </p>
+        </div>
+        
         </div>
         <div class="w-full flex gap-5 h-[120px] border-2 border-black">
           <div class="h-full">
