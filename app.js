@@ -8,6 +8,7 @@ import { userModel } from "./models/user.models.js";
 import { orderModel } from "./models/order.models.js";
 import { router } from "./routes/user.routes.js";
 import { authenticateUser } from "./controllers/authticateUser.controller.js";
+import { fetchProducts } from "./controllers/fetchProduct.controller.js";
 
 const app = express();
 const uri = "mongodb://127.0.0.1/scratch"; // Your MongoDB URI
@@ -34,25 +35,7 @@ app.use(cookieParser());
 app.use(router)
 
 // Function to fetch products
-async function fetchProducts() {
-  try {
-    return await productsCollection.find({}).toArray();
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
-}
 
- 
-app.get("/shop", authenticateUser, async (req, res) => {
-  try {
-    const products = await fetchProducts();
-    const orders =  await orderModel.find({userId : req.user._id})
-    res.render("shop", { user: req.user, products, orders });
-  } catch (error) {
-    res.status(500).send("Error loading shop page");
-  }
-});
 
 
 app.get("/product-details/:id", authenticateUser, async (req, res) => {
