@@ -10,6 +10,7 @@ import { loginUser } from "../controllers/loginUser.controller.js";
 import { logoutUser } from "../controllers/logoutUser.controller.js";
 import { renderProfilePage } from "../controllers/renderProfileUpdatePage.controller.js";
 import { updateUserProfile } from "../controllers/updateUserProfile.controller.js";
+import { deleteProduct } from "../controllers/deleteProduct.controller.js";
 
 export const router = Router();
 
@@ -23,3 +24,4 @@ router.post("/login", loginUser)
 router.post("/logout", logoutUser)
 router.get("/update-profile", authenticateUser, renderProfilePage)
 router.post("/update-profile", authenticateUser, updateUserProfile)
+router.get("/delete-product/:id", authenticateUser, deleteProduct)

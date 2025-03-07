@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import { router } from "./routes/user.routes.js";
 import { SECRET_KEY } from "./config/SECRET_KEY.js";
+import { orderModel } from "./models/order.models.js";
 
 const app = express();
 app.use(
@@ -18,5 +19,6 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(router);
+
 
 app.listen(process.env.PORT);
