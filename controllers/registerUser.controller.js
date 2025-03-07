@@ -1,6 +1,7 @@
 import { userModel } from "../models/user.models.js";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
+import { SECRET_KEY } from "../config/SECRET_KEY.js";
 
 export const registerUser =  async (req, res) => {
   try {
@@ -19,7 +20,7 @@ export const registerUser =  async (req, res) => {
       contact,
     });
 
-    const token = jwt.sign({ email: user.email, id: user._id }, "secret");
+    const token = jwt.sign({ email: user.email, id: user._id }, SECRET_KEY);
     res.cookie("token", token, { httpOnly: true });
 
     res.redirect("/shop");

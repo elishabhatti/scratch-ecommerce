@@ -2,13 +2,12 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import { router } from "./routes/user.routes.js";
-import dotenv from "dotenv"
-dotenv.config();
+import { SECRET_KEY } from "./config/SECRET_KEY.js";
 
 const app = express();
 app.use(
   session({
-    secret: "secret",
+    secret: SECRET_KEY,
     resave: false,
     saveUninitialized: false,
   })
