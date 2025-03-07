@@ -7,6 +7,7 @@ import { renderProductDetailsPageById } from "../controllers/renderProductDetail
 import { registerUser } from "../controllers/registerUser.controller.js";
 import { buyBagPost } from "../controllers/buyBagPost.controller.js";
 import { loginUser } from "../controllers/loginUser.controller.js";
+import { logoutUser } from "../controllers/logoutUser.controller.js";
 
 export const router = Router();
 
@@ -17,3 +18,4 @@ router.get("/product-details/:id", authenticateUser, renderProductDetailsPageByI
 router.post("/register", registerUser)
 router.post("/buy-bag", authenticateUser, buyBagPost)
 router.post("/login", loginUser)
+router.post("/logout", logoutUser)
