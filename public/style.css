@@ -7,3 +7,10 @@ body {
   color: black;
   background-color: white;
 }
+@layer utilities {
+  .peer:-webkit-autofill {
+    background-color: white !important;
+    color: black !important;
+    box-shadow: 0 0 0px 1000px white inset !important;
+  }
+}
