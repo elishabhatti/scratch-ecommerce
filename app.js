@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import session from "express-session";
 import { userModel } from "./models/user.models.js";
 import { orderModel } from "./models/order.models.js";
+import { router } from "./routes/user.routes.js";
 
 const app = express();
 const uri = "mongodb://127.0.0.1/scratch"; // Your MongoDB URI
@@ -29,6 +30,7 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(router)
 
 // Function to fetch products
 async function fetchProducts() {
@@ -54,9 +56,7 @@ const authenticateUser = async (req, res, next) => {
   }
 };
  
-app.get("/", (req, res) => {
-  res.render("index");
-});
+
 
 app.get("/shop", authenticateUser, async (req, res) => {
   try {
