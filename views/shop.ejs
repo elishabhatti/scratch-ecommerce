@@ -11,7 +11,7 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
     <div class="flex items-center justify-between">
@@ -44,7 +44,7 @@
       <div class="products my-10 w-[80%] flex gap-5 items-center flex-wrap">
         <% products.forEach((product) => { %>
 
-        <div class="card w-[350px]  border-2 border-black rounded-md">
+        <div class="card w-[350px] border-2 border-black rounded-md">
           <img class="w-full" src="<%= product.image %>" alt="" />
           <div class="p-5">
             <p class="text-2xl"><%= product.title%></p>
