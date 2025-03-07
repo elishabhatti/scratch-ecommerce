@@ -7,6 +7,7 @@ import session from "express-session";
 import { userModel } from "./models/user.models.js";
 import { orderModel } from "./models/order.models.js";
 import { router } from "./routes/user.routes.js";
+import { authenticateUser } from "./controllers/authticateUser.controller.js";
 
 const app = express();
 const uri = "mongodb://127.0.0.1/scratch"; // Your MongoDB URI
@@ -42,22 +43,7 @@ async function fetchProducts() {
   }
 }
 
-// Middleware for authentication
-const authenticateUser = async (req, res, next) => {
-  try {
-    const token = req.cookies.token;
-    if (!token) return res.redirect("/");
-
-    const decoded = jwt.verify(token, "secret");
-    req.user = await userModel.findById(decoded.id).select("-password");
-    next();
-  } catch (error) {
-    res.status(401).send("Unauthorized");
-  }
-};
  
-
-
 app.get("/shop", authenticateUser, async (req, res) => {
   try {
     const products = await fetchProducts();
@@ -68,15 +54,6 @@ app.get("/shop", authenticateUser, async (req, res) => {
   }
 });
 
-app.get("/buyed-products", authenticateUser, async (req, res) => {
-  try {
-    let orders = await orderModel.find({ userId: req.user._id });
-    res.render("buyed-products", { user: req.user, orders });
-  } catch (error) {
-    console.error("Error loading buyed-products page:", error);
-    res.status(500).send("Error loading buyed-products page");
-  }
-});
 
 app.get("/product-details/:id", authenticateUser, async (req, res) => {
   try {
