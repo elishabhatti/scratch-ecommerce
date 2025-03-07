@@ -53,8 +53,7 @@ const authenticateUser = async (req, res, next) => {
     res.status(401).send("Unauthorized");
   }
 };
-
-// Routes
+ 
 app.get("/", (req, res) => {
   res.render("index");
 });
