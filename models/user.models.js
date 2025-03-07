@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv"
-dotenv.config();
-
-mongoose.connect(process.env.MONGODBURL);
+import { connectDB } from "../config/CONNECT_DB.js";
+connectDB()
 
 const userSchema = new mongoose.Schema(
   {
