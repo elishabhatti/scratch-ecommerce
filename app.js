@@ -11,13 +11,6 @@ import { authenticateUser } from "./controllers/authticateUser.controller.js";
 import { fetchProducts } from "./controllers/fetchProduct.controller.js";
 
 const app = express();
-const uri = "mongodb://127.0.0.1/scratch"; // Your MongoDB URI
-const client = new MongoClient(uri);
-
-await client.connect(); // Connect once globally
-const database = client.db("scratch");
-const productsCollection = database.collection("bags");
-
 app.use(
   session({
     secret: "secret",
@@ -31,25 +24,11 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(router)
+app.use(router);
 
 // Function to fetch products
 
 
-
-app.get("/product-details/:id", authenticateUser, async (req, res) => {
-  try {
-    const products = await fetchProducts();
-    const product = products.find((p) => p._id.equals(new ObjectId(req.params.id)));
-
-    if (!product) return res.status(404).send("Product not found");
-
-    res.render("product-details", { user: req.user, product });
-  } catch (error) {
-    console.error("Error loading product details:", error);
-    res.status(500).send("Error loading product details");
-  }
-});
 
 app.post("/register", async (req, res) => {
   try {
@@ -79,12 +58,29 @@ app.post("/register", async (req, res) => {
 
 app.post("/buy-bag", authenticateUser, async (req, res) => {
   try {
-    let { productId, title, price, quantity, paymentMethod, totalAmount, image } = req.body;
+    let {
+      productId,
+      title,
+      price,
+      quantity,
+      paymentMethod,
+      totalAmount,
+      image,
+    } = req.body;
     let userId = req.user._id;
 
-    if (!userId) return res.status(401).json({ error: "User not authenticated" });
+    if (!userId)
+      return res.status(401).json({ error: "User not authenticated" });
 
-    if (!productId || !title || !price || !quantity || !paymentMethod || !totalAmount || !image) {
+    if (
+      !productId ||
+      !title ||
+      !price ||
+      !quantity ||
+      !paymentMethod ||
+      !totalAmount ||
+      !image
+    ) {
       return res.status(400).json({ error: "All fields are required." });
     }
 
@@ -93,7 +89,9 @@ app.post("/buy-bag", authenticateUser, async (req, res) => {
     totalAmount = parseFloat(totalAmount);
 
     if (isNaN(quantity) || quantity <= 0) {
-      return res.status(400).json({ error: "Quantity must be a positive number." });
+      return res
+        .status(400)
+        .json({ error: "Quantity must be a positive number." });
     }
 
     await orderModel.create({
