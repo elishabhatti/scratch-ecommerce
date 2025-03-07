@@ -21,14 +21,18 @@
           <h1 class="text-2xl leading-2">Hello <%= user.fullname %>!</h1>
           <%- include("partials/logout") %>
         </div>
-        <div
-          class="bg-white border-2 border-black rounded-full flex justify-center items-center w-15 h-15"
-        >
-          <ion-icon
+        <form action="/update-profile" method="get">
+          <button type="submit">
+            <div
+            class="bg-white border-2 border-black rounded-full flex justify-center items-center w-15 h-15"
+            >
+            <ion-icon
             class="text-3xl text-black"
             name="person-outline"
-          ></ion-icon>
+            ></ion-icon>
+          </button>
         </div>
+      </form>
       </div>
     </div>
     <h1 class="text-4xl text-center mt-3">Shoping Bags</h1>
