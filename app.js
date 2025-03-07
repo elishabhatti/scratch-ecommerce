@@ -18,7 +18,6 @@ await client.connect(); // Connect once globally
 const database = client.db("scratch");
 const productsCollection = database.collection("bags");
 
-// Middleware
 app.use(
   session({
     secret: "secret",

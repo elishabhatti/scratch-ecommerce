@@ -1,4 +1,5 @@
 import { orderModel } from "../models/order.models.js";
+import { fetchProducts } from "./fetchProduct.controller.js";
 
 export const renderShopPage = async (req, res) => {
     try {
