@@ -14,62 +14,75 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <div class="container mx-auto mt-10">
-      <h1 class="text-3xl text-center">Update Order</h1>
-      <form
-        action="/update-product/<%= order._id %>"
-        method="POST"
-        class="flex justify-center mt-5 gap-5 mx-auto"
-      >
-        <div>
-          <img class="w-[500px]" src="<%= order.image %>" alt="" />
+    <div class="flex items-center justify-between">
+      <%- include("partials/logo") %>
+      <div class="profile flex items-center">
+        <div class="mx-2">
+          <h1 class="text-2xl leading-2">Hello <%= user?.fullname || "Guest" %>!</h1>
+          <%- include("partials/logout") %>
         </div>
-        <div>
+        <div
+          class="bg-white border-2 border-black rounded-full flex justify-center items-center w-12 h-12"
+        >
+          <ion-icon class="text-3xl text-black" name="person-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+    <div class="flex mt-3 gap-3 items-center">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      <a class="underline" href="/shop">Go Back</a>
+    </div>
+    <h1 class="text-4xl text-center">Update Order</h1>
+    <div class="main-container mt-5 flex justify-center gap-5">
+      <div>
+        <img class="w-[500px]" src="<%= order.image %>" alt="Product Image" />
+      </div>
+      <div class="w-[500px]">
+        <h1 class="text-3xl mb-3">Order Details</h1>
+        <form class="ml-5" action="/update-product/<%= order._id %>" method="POST">
           <label>Title:</label>
-          <input
-            class="bg-transparent border-none"
-            type="text"
-            value="<%= order.title %>"
-            name="title"
-          />
+          <input class="bg-transparent border-none" type="text" value="<%= order.title %>" name="title" />
           <br />
           <label>Price:</label>
-          <input
-            class="bg-transparent border-none"
-            type="text"
-            value="<%= (order.price).toFixed(2) %>"
-            name="price"
-          />
+          <input class="bg-transparent border-none" type="text" value="<%= (order.price).toFixed(2) %>" name="price" />
           <br />
           <p>Shipping Fee: 3.00$</p>
           <p>Platform Fee: Free</p>
-          <label class="block">Quantity:</label>
-          <input
-            class="w-full border px-2 py-1"
-            type="number"
-            name="quantity"
-            value="<%= order.quantity %>"
-            required
-          />
-
-          <label class="block mt-2">Payment Method:</label>
-          <input
-            class="w-full border px-2 py-1"
-            type="text"
-            name="paymentMethod"
-            value="<%= order.paymentMethod %>"
-            required
-          />
-          <p>Total Amount: <%= (order.totalAmount).toFixed() %>$</p>
-
-          <button
-            class="w-full bg-black text-white px-3 py-2 mt-4"
-            type="submit"
-          >
-            Update Order
-          </button>
-        </div>
-      </form>
+          <label>Quantity:</label>
+          <input class="text-black mb-3 peer bg-transparent w-full border-2 border-black px-3 py-3" type="number" name="quantity" value="<%= order.quantity %>" required />
+          <br />
+          <label>Payment Method:</label>
+          <input class="text-black mb-3 bg-transparent peer w-full border-2 border-black px-3 py-3" type="text" name="paymentMethod" value="<%= order.paymentMethod %>" required />
+          <br />
+          <!-- <input name="totalAmount" id="totalAmount">Total Amount: <%= (order.price * order.quantity + 3).toFixed(2) %>/> -->
+           <input value="<%= (order.price * order.quantity + 3).toFixed(2) %>" type="text" name="totalAmount" id="totalAmount">
+          <button class="w-full bg-black px-3 py-2 text-white" type="submit">Update Order</button>
+        </form>
+      </div>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const quantityInput = document.querySelector("input[name='quantity']");
+        const totalAmountElement = document.querySelector("#totalAmount");
+        const price = parseFloat("<%= order.price %>"); // Ensure it's properly passed as a number
+    
+        function updateTotal() {
+          const quantity = parseInt(quantityInput.value) || 1;
+          const shippingFee = 3.00;
+          const totalAmount = (price * quantity + shippingFee).toFixed(2);
+          totalAmountElement.value = totalAmount; // Update the input value
+        }
+    
+        quantityInput.addEventListener("input", updateTotal);
+      });
+    </script>
+    <script
+    type="module"
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+  ></script>
+  <script
+    nomodule
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+  ></script>
   </body>
 </html>
