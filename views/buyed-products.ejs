@@ -13,16 +13,19 @@
 <body class="p-5 font-[Poppins]">
   
   <!-- Header Section -->
-  <div class="flex items-center justify-between border-b pb-4">
+  <div class="flex items-center justify-between p-4 border-b border-gray-300">
     <%- include("partials/logo") %>
-    <div class="flex items-center">
-      <div class="mr-3">
-        <h1 class="text-xl font-semibold">Hello, <%= user.fullname %>!</h1>
+    <div class="profile flex items-center">
+      <div class="mx-2">
+        <h1 class="text-2xl font-semibold">Welcome, <%= user.fullname %>!</h1>
+        <p class="text-gray-600">Explore the best bags for every occasion.</p>
         <%- include("partials/logout") %>
       </div>
       <form action="/update-profile" method="get">
-        <button type="submit" class="bg-white border-2 border-black rounded-full p-3 flex items-center justify-center">
-          <ion-icon class="text-2xl text-black" name="person-outline"></ion-icon>
+        <button type="submit">
+          <div class="bg-white border-2 border-black rounded-full flex justify-center items-center w-15 h-15">
+            <ion-icon class="text-3xl text-black" name="person-outline"></ion-icon>
+          </div>
         </button>
       </form>
     </div>
@@ -68,7 +71,7 @@
             </div>
             <div class="flex items-center gap-4 mt-3">
               <img class="w-32 h-32 object-cover border" src="<%= order.image %>" alt="<%= order.title %>">
-              <div class="w-full flex justify-between">
+              <div class="w-full flex justify-between items-center">
                 <div>
                   <p><strong>Title:</strong> <%= order.title %></p>
                   <p><strong>Quantity:</strong> <%= order.quantity %></p>
@@ -76,8 +79,8 @@
                   <p><strong>Total:</strong> $<%= order.totalAmount.toFixed(2) %></p>
                 </div>
                 <div class="flex flex-col gap-2">
-                  <a href="/delete-product/<%= order._id %>" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
-                  <a href="/update-product/<%= order._id %>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Update</a>
+                  <a href="/delete-product/<%= order._id %>" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"><ion-icon class="text-1xl" name="trash-outline"></ion-icon></a>
+                  <a href="/update-product/<%= order._id %>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"><ion-icon class="text-1xl" name="create-outline"></ion-icon></a>
                 </div>
               </div>
             </div>

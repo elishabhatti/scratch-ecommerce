@@ -11,28 +11,24 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between p-4 border-b border-gray-300">
       <%- include("partials/logo") %>
       <div class="profile flex items-center">
         <div class="mx-2">
-          <h1 class="text-2xl leading-2">
-            Hello <%= user?.fullname || "Guest" %>!
-          </h1>
+          <h1 class="text-2xl font-semibold">Welcome, <%= user.fullname %>!</h1>
+          <p class="text-gray-600">Explore the best bags for every occasion.</p>
           <%- include("partials/logout") %>
         </div>
         <form action="/update-profile" method="get">
           <button type="submit">
-            <div
-            class="bg-white border-2 border-black rounded-full flex justify-center items-center w-15 h-15"
-            >
-            <ion-icon
-            class="text-3xl text-black"
-            name="person-outline"
-            ></ion-icon>
+            <div class="bg-white border-2 border-black rounded-full flex justify-center items-center w-15 h-15">
+              <ion-icon class="text-3xl text-black" name="person-outline"></ion-icon>
+            </div>
           </button>
-        </div>
-      </form>
+        </form>
       </div>
+    </div>
+
     </div>
     <div class="flex mt-3 gap-3 items-center">
       <ion-icon name="arrow-back-outline"></ion-icon>

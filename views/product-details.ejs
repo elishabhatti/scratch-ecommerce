@@ -16,11 +16,12 @@
   </head>
   <body>
     <!-- Header Section -->
-    <header class="flex items-center justify-between p-4 border-b border-gray-300">
+    <div class="flex items-center justify-between p-4 border-b border-gray-300">
       <%- include("partials/logo") %>
       <div class="profile flex items-center">
         <div class="mx-2">
-          <h1 class="text-lg font-semibold">Hello, <%= user?.fullname || "Guest" %>!</h1>
+          <h1 class="text-2xl font-semibold">Welcome, <%= user.fullname %>!</h1>
+          <p class="text-gray-600">Explore the best bags for every occasion.</p>
           <%- include("partials/logout") %>
         </div>
         <form action="/update-profile" method="get">
@@ -31,7 +32,7 @@
           </button>
         </form>
       </div>
-    </header>
+    </div>
     
     <!-- Navigation Back Link -->
     <div class="flex mt-3 gap-3 items-center">
