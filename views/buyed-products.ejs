@@ -48,9 +48,13 @@
       </div>
     </div>
     <div class="flex justify-center">
-      <div class="w-[20%]">
-        <p class="text-2xl">Trending Products</p>
-        <p class="text-2xl">Recently added Product</p>
+      <div class="options mr-5 my-10 w-[20%]">
+        <p class="text-2xl flex items-center">
+          <ion-icon class="mr-2" name="cart-outline"></ion-icon>
+          <a href="/buyed-products">Item Added: <%= orders.length %></a>
+        </p>
+        <p class="text-2xl">Trending Bags</p>
+        <p class="text-2xl">New Bags Releases</p>
       </div>
       <div class="mt-5 space-y-1 w-[80%]">
         <% if (orders.length > 0) { %> <% orders.forEach((order) => { %>
