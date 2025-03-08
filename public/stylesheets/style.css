@@ -1,9 +1,8 @@
 * {
-  font-family: "Jersey 15";
+  font-family: "Poppins";
 }
 body {
   padding: 2rem;
-  font-size: 18px;
   color: black;
   background-color: white;
 }
@@ -14,6 +13,7 @@ body {
     box-shadow: 0 0 0px 1000px white inset !important;
   }
 }
-a, button {
+a,
+button {
   cursor: pointer;
 }

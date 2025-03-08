@@ -1,123 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Details</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Jersey+15&family=Poppins:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-  </head>
-  <body>
-    <div class="flex items-center justify-between">
-      <%- include("partials/logo") %>
-      <div class="profile flex items-center">
-        <div class="mx-2">
-          <h1 class="text-2xl leading-4">Hello <%= user.fullname %>!</h1>
-          <%- include("partials/logout") %>
-        </div>
-        <form action="/update-profile" method="get">
-          <button type="submit">
-            <div
-            class="bg-white border-2 border-black rounded-full flex justify-center items-center w-15 h-15"
-            >
-            <ion-icon
-            class="text-3xl text-black"
-            name="person-outline"
-            ></ion-icon>
-          </button>
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Orders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body class="p-5 font-[Poppins]">
+  
+  <!-- Header Section -->
+  <div class="flex items-center justify-between border-b pb-4">
+    <%- include("partials/logo") %>
+    <div class="flex items-center">
+      <div class="mr-3">
+        <h1 class="text-xl font-semibold">Hello, <%= user.fullname %>!</h1>
+        <%- include("partials/logout") %>
+      </div>
+      <form action="/update-profile" method="get">
+        <button type="submit" class="bg-white border-2 border-black rounded-full p-3 flex items-center justify-center">
+          <ion-icon class="text-2xl text-black" name="person-outline"></ion-icon>
+        </button>
       </form>
-      </div>
     </div>
-    <div class="flex justify-between my-5 items-center">
-      <div class="flex mt-3 gap-3 items-center">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-        <a class="underline" href="/shop">Go Back</a>
-      </div>
-      <div>
-        <h1 class="text-4xl text-center mt-3">Your Orders:</h1>
-      </div>
-      <div>
-        <h1 class="text-center mt-3">Your Total  Orders: <%= orders.length%></h1>
-      </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="flex justify-between items-center my-5">
+    <div class="flex items-center gap-2">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      <a href="/shop" class="underline text-lg">Back to Shop</a>
     </div>
-    <div class="flex justify-center">
-      <div class="options mr-5 my-10 w-[20%]">
-        <p class="text-2xl flex items-center">
-          <ion-icon class="mr-2" name="cart-outline"></ion-icon>
-          <a href="/buyed-products">Item Added: <%= orders.length %></a>
-        </p>
-        <p class="text-2xl">Trending Bags</p>
-        <p class="text-2xl">New Bags Releases</p>
-      </div>
-      <div class="mt-5 space-y-1 w-[80%]">
-        <% if (orders.length > 0) { %> <% orders.forEach((order) => { %>
-        <div class="flex justify-between items-center">
-          <div>
-            <p>Product Id: <%= order.productId %></p>
-          </div>
-          <div>
-            <p class="">
-              Status:
-              <span class="text-gray-900"><%= order.status %></span>
-            </p>
-          </div>
-          <div>
-            <p>
-              Order Date: <%= order && order.orderDate ? new Date(order.orderDate).toLocaleDateString() : "N/A" %>
-            </p>
-            <p>
-              Order Time: <%= order && order.orderDate ? new Date(order.orderDate).toLocaleTimeString() : "N/A" %>
-            </p>
-        </div>
-        
-        </div>
-        <div class="w-full flex gap-5 h-[120px] border-2 border-black">
-          <div class="h-full">
-            <img class="h-full" src="<%= order.image %>" alt="" />
-          </div>
-          <div class="flex w-full justify-between items-center">
-            <div>
-              <p>Title: <%= order.title %></p>
-              <p>Quantity: <%= order.quantity %></p>
-              <p>Payment Method: <%= order.paymentMethod %></p>
-              <p>Total Amount: <%= (order.totalAmount).toFixed(2) %>$</p>
+    <h1 class="text-3xl font-semibold">Your Orders</h1>
+    <p class="text-lg font-medium">Total Orders: <%= orders.length %></p>
+  </div>
+
+  <!-- Orders Section -->
+  <div class="flex justify-center">
+    <!-- Sidebar -->
+    <aside class="w-1/4 p-5 border-r">
+      <h2 class="text-xl font-semibold mb-3">Quick Links</h2>
+      <p class="flex items-center text-lg">
+        <ion-icon class="mr-2" name="cart-outline"></ion-icon>
+        <a href="/buyed-products">Items in Cart: <%= orders.length %></a>
+      </p>
+      <p class="text-lg mt-2">🔥 Trending Bags</p>
+      <p class="text-lg">🆕 New Bag Releases</p>
+    </aside>
+
+    <!-- Order List -->
+    <section class="w-3/4 p-5">
+      <% if (orders.length > 0) { %>
+        <% orders.forEach((order) => { %>
+          <div class="border-2 border-gray-300 rounded-lg p-4 mb-5">
+            <div class="flex justify-between items-center">
+              <p><strong>Order ID:</strong> <%= order.productId %></p>
+              <p><strong>Status:</strong> <span class="text-gray-900"><%= order.status %></span></p>
+              <p>
+                <strong>Order Date:</strong>
+                <%= order.orderDate ? new Date(order.orderDate).toLocaleDateString() : "N/A" %> |
+                <strong>Time:</strong>
+                <%= order.orderDate ? new Date(order.orderDate).toLocaleTimeString() : "N/A" %>
+              </p>
             </div>
-            <div class="flex flex-col">
-              <a
-              href="/delete-product/<%= order._id %>"
-              class="px-2 py-1 mx-4 my-1 bg-black text-white rounded-sm"
-              >
-              Delete
-            </a>
-            <a
-            href="/update-product/<%= order._id %>"
-                class="px-2 py-1 mx-4 my-1 bg-black text-white rounded-sm"
-              >
-                Update
-          </a>
+            <div class="flex items-center gap-4 mt-3">
+              <img class="w-32 h-32 object-cover border" src="<%= order.image %>" alt="<%= order.title %>">
+              <div class="w-full flex justify-between">
+                <div>
+                  <p><strong>Title:</strong> <%= order.title %></p>
+                  <p><strong>Quantity:</strong> <%= order.quantity %></p>
+                  <p><strong>Payment:</strong> <%= order.paymentMethod %></p>
+                  <p><strong>Total:</strong> $<%= order.totalAmount.toFixed(2) %></p>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <a href="/delete-product/<%= order._id %>" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
+                  <a href="/update-product/<%= order._id %>" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Update</a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <hr>
-        <% }) %> <% } else { %>
-        <p class="text-center text-gray-300 text-xl">No orders yet.</p>
-        <% } %>
-      </div>
-    </div>
-    <script
-      type="module"
-      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-    ></script>
-  </body>
+        <% }) %>
+      <% } else { %>
+        <p class="text-center text-gray-500 text-xl mt-10">No orders placed yet.</p>
+      <% } %>
+    </section>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+</body>
 </html>
