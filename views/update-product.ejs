@@ -18,13 +18,18 @@
       <%- include("partials/logo") %>
       <div class="profile flex items-center">
         <div class="mx-2">
-          <h1 class="text-2xl leading-2">Hello <%= user?.fullname || "Guest" %>!</h1>
+          <h1 class="text-2xl leading-2">
+            Hello <%= user?.fullname || "Guest" %>!
+          </h1>
           <%- include("partials/logout") %>
         </div>
         <div
           class="bg-white border-2 border-black rounded-full flex justify-center items-center w-12 h-12"
         >
-          <ion-icon class="text-3xl text-black" name="person-outline"></ion-icon>
+          <ion-icon
+            class="text-3xl text-black"
+            name="person-outline"
+          ></ion-icon>
         </div>
       </div>
     </div>
@@ -39,50 +44,71 @@
       </div>
       <div class="w-[500px]">
         <h1 class="text-3xl mb-3">Order Details</h1>
-        <form class="ml-5" action="/update-product/<%= order._id %>" method="POST">
+        <form
+          class="ml-5"
+          action="/update-product/<%= order._id %>"
+          method="POST"
+        >
           <label>Title:</label>
-          <input class="bg-transparent border-none" type="text" value="<%= order.title %>" name="title" />
+          <input
+            class="bg-transparent border-none"
+            type="text"
+            value="<%= order.title %>"
+            name="title"
+          />
           <br />
           <label>Price:</label>
-          <input class="bg-transparent border-none" type="text" value="<%= (order.price).toFixed(2) %>" name="price" />
+          <input
+            class="bg-transparent border-none"
+            type="text"
+            value="<%= (order.price).toFixed(2) %>"
+            name="price"
+          />
           <br />
           <p>Shipping Fee: 3.00$</p>
           <p>Platform Fee: Free</p>
           <label>Quantity:</label>
-          <input class="text-black mb-3 peer bg-transparent w-full border-2 border-black px-3 py-3" type="number" name="quantity" value="<%= order.quantity %>" required />
+          <input
+            class="text-black mb-3 peer bg-transparent w-full border-2 border-black px-3 py-3"
+            id="quantity"
+            type="number"
+            name="quantity"
+            value="<%= order.quantity %>"
+            required
+            data-price="<%= order.price %>"
+          />
+
           <br />
           <label>Payment Method:</label>
-          <input class="text-black mb-3 bg-transparent peer w-full border-2 border-black px-3 py-3" type="text" name="paymentMethod" value="<%= order.paymentMethod %>" required />
+          <input
+            class="text-black mb-3 bg-transparent peer w-full border-2 border-black px-3 py-3"
+            type="text"
+            name="paymentMethod"
+            value="<%= order.paymentMethod %>"
+            required
+          />
           <br />
-          <!-- <input name="totalAmount" id="totalAmount">Total Amount: <%= (order.price * order.quantity + 3).toFixed(2) %>/> -->
-           <input value="<%= (order.price * order.quantity + 3).toFixed(2) %>" type="text" name="totalAmount" id="totalAmount">
-          <button class="w-full bg-black px-3 py-2 text-white" type="submit">Update Order</button>
+          <input
+            type="text"
+            value="<%= (order.price * order.quantity + 3).toFixed(2) %>"
+            name="totalAmount"
+            id="totalAmount"
+            readonly
+          />
+          <button class="w-full bg-black px-3 py-2 text-white" type="submit">
+            Update Order
+          </button>
         </form>
       </div>
     </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const quantityInput = document.querySelector("input[name='quantity']");
-        const totalAmountElement = document.querySelector("#totalAmount");
-        const price = parseFloat("<%= order.price %>"); // Ensure it's properly passed as a number
-    
-        function updateTotal() {
-          const quantity = parseInt(quantityInput.value) || 1;
-          const shippingFee = 3.00;
-          const totalAmount = (price * quantity + shippingFee).toFixed(2);
-          totalAmountElement.value = totalAmount; // Update the input value
-        }
-    
-        quantityInput.addEventListener("input", updateTotal);
-      });
-    </script>
+    <script defer src="/javascripts/update-totalAmount.js"></script>
     <script
-    type="module"
-    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-  ></script>
-  <script
-    nomodule
-    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-  ></script>
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
   </body>
 </html>
