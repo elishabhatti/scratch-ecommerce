@@ -1,26 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Update Order</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Jersey+15&family=Poppins:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/stylesheets/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
     <div class="container mx-auto mt-10">
-        <h1 class="text-3xl text-center">Update Order</h1>
-        <img class="w-[500px]" src="<%= order.image %>" alt="">
-        <form action="/update-product/<%= order._id %>" method="POST" class="max-w-lg mx-auto">
-          
-            <label class="block">Quantity:</label>
-            <input class="w-full border px-2 py-1" type="number" name="quantity" value="<%= order.quantity %>" required />
+      <h1 class="text-3xl text-center">Update Order</h1>
+      <form
+        action="/update-product/<%= order._id %>"
+        method="POST"
+        class="flex justify-center mt-5 gap-5 mx-auto"
+      >
+        <div>
+          <img class="w-[500px]" src="<%= order.image %>" alt="" />
+        </div>
+        <div>
+          <label>Title:</label>
+          <input
+            class="bg-transparent border-none"
+            type="text"
+            value="<%= order.title %>"
+            name="title"
+          />
+          <br />
+          <label>Price:</label>
+          <input
+            class="bg-transparent border-none"
+            type="text"
+            value="<%= (order.price).toFixed(2) %>"
+            name="price"
+          />
+          <br />
+          <p>Shipping Fee: 3.00$</p>
+          <p>Platform Fee: Free</p>
+          <label class="block">Quantity:</label>
+          <input
+            class="w-full border px-2 py-1"
+            type="number"
+            name="quantity"
+            value="<%= order.quantity %>"
+            required
+          />
 
-            <label class="block mt-2">Payment Method:</label>
-            <input class="w-full border px-2 py-1" type="text" name="paymentMethod" value="<%= order.paymentMethod %>" required />
+          <label class="block mt-2">Payment Method:</label>
+          <input
+            class="w-full border px-2 py-1"
+            type="text"
+            name="paymentMethod"
+            value="<%= order.paymentMethod %>"
+            required
+          />
+          <p>Total Amount: <%= (order.totalAmount).toFixed() %>$</p>
 
-            <button class="w-full bg-black text-white px-3 py-2 mt-4" type="submit">Update Order</button>
-        </form>
+          <button
+            class="w-full bg-black text-white px-3 py-2 mt-4"
+            type="submit"
+          >
+            Update Order
+          </button>
+        </div>
+      </form>
     </div>
-</body>
+  </body>
 </html>

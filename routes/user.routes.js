@@ -12,6 +12,7 @@ import { renderProfilePage } from "../controllers/renderProfileUpdatePage.contro
 import { updateUserProfile } from "../controllers/updateUserProfile.controller.js";
 import { deleteProduct } from "../controllers/deleteProduct.controller.js";
 import { renderUpdateProductPage } from "../controllers/renderUpdateProfile.controller.js";
+import { updateProduct } from "../controllers/updateProduct.controller.js";
 
 export const router = Router();
 
@@ -27,3 +28,4 @@ router.get("/update-profile", authenticateUser, renderProfilePage)
 router.post("/update-profile", authenticateUser, updateUserProfile)
 router.get("/delete-product/:id", authenticateUser, deleteProduct)
 router.get("/update-product/:id", authenticateUser, renderUpdateProductPage)
+router.post("/update-product/:id", authenticateUser, updateProduct)
