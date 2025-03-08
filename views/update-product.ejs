@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <div class="container mx-auto mt-10">
+        <h1 class="text-3xl text-center">Update Order</h1>
+        <img class="w-[500px]" src="<%= order.image %>" alt="">
+        <form action="/update-product/<%= order._id %>" method="POST" class="max-w-lg mx-auto">
+          
+            <label class="block">Quantity:</label>
+            <input class="w-full border px-2 py-1" type="number" name="quantity" value="<%= order.quantity %>" required />
+
+            <label class="block mt-2">Payment Method:</label>
+            <input class="w-full border px-2 py-1" type="text" name="paymentMethod" value="<%= order.paymentMethod %>" required />
+
+            <button class="w-full bg-black text-white px-3 py-2 mt-4" type="submit">Update Order</button>
+        </form>
+    </div>
+</body>
+</html>
