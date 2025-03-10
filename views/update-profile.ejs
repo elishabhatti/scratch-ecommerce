@@ -10,83 +10,53 @@
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-  <body>
-    <div class="flex items-center justify-between p-4 border-b border-gray-300">
+  <body class="bg-gray-100">
+    <div class="flex flex-col md:flex-row items-center justify-between p-4 border-b border-gray-300">
       <%- include("partials/logo") %>
-      <div class="profile flex items-center">
-        <div class="mx-2">
-          <h1 class="text-2xl font-semibold">Welcome, <%= user.fullname %>!</h1>
-          <p class="text-gray-600">Explore the best bags for every occasion.</p>
+      <div class="profile flex flex-col md:flex-row items-center">
+        <div class="text-center md:text-left mx-2">
+          <h1 class="text-xl md:text-2xl font-semibold">Welcome, <%= user.fullname %>!</h1>
+          <p class="text-gray-600 text-sm md:text-base">Explore the best bags for every occasion.</p>
           <%- include("partials/logout") %>
         </div>
         <form action="/update-profile" method="get">
           <button type="submit">
-            <div class="bg-white border-2 border-black rounded-full flex justify-center items-center w-15 h-15">
-              <ion-icon class="text-3xl text-black" name="person-outline"></ion-icon>
+            <div class="bg-white border-2 border-black rounded-full flex justify-center items-center w-12 h-12 md:w-14 md:h-14">
+              <ion-icon class="text-2xl md:text-3xl text-black" name="person-outline"></ion-icon>
             </div>
           </button>
         </form>
       </div>
     </div>
-    <div class="flex mt-3 gap-3 items-center">
-      <ion-icon name="arrow-back-outline"></ion-icon>
-      <a class="underline" href="/shop">Go Back</a>
+
+    <div class="flex mt-3 gap-3 items-center px-4">
+      <ion-icon class="text-xl md:text-2xl" name="arrow-back-outline"></ion-icon>
+      <a class="underline text-sm md:text-base hover:text-blue-600 transition duration-200" href="/shop">Go Back</a>
     </div>
+
     <div class="w-full flex justify-center">
-      <div>
-        <form class="w-[500px] m-10" action="/update-profile" method="post">
-            <h1 class="text-4xl">Update Account</h1>
-        
-            <label>Update FullName:</label>
-            <input
-                class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2"
-                value="<%= user.fullname %>"
-                type="text"
-                name="fullname"
-                placeholder="Enter Your Full Name"
-            />
-        
-            <label>Update Password:</label>
-            <input
-                class="w-full peer border-2 text-black border-black px-3 py-2 rounded-sm my-2"
-                type="password"
-                name="password"
-                placeholder="Enter Your Password"
-            />
-        
-            <label>Update Address:</label>
-            <input
-                class="w-full peer border-2 text-black border-black px-3 py-2 rounded-sm my-2"
-                value="<%= user.address %>"
-                type="text"
-                name="address"
-                placeholder="Enter Your Address"
-            />
-        
-            <label>Update Contact:</label>
-            <input
-                class="w-full peer border-2 text-black border-black px-3 py-2 rounded-sm my-2"
-                value="<%= user.contact %>"
-                type="number"
-                name="contact"
-                placeholder="Enter Your Contact"
-            />
-        
-            <input
-                class="w-full peer cursor-pointer bg-black border-2 border-black text-white px-3 py-2 rounded-sm my-2"
-                type="submit"
-                value="Update Profile"
-            />
+      <div class="w-full sm:w-full md:w-[500px] m-10 p-5 border border-gray-300 rounded-lg  bg-white">
+        <form action="/update-profile" method="post">
+            <h1 class="text-2xl md:text-4xl text-center font-bold">Update Account</h1>
+
+            <label class="block mt-4 text-sm md:text-base font-medium">Update Full Name:</label>
+            <input class="w-full border-2 border-black px-3 py-2 rounded-md text-sm md:text-base" value="<%= user.fullname %>" type="text" name="fullname" placeholder="Enter Your Full Name" />
+
+            <label class="block mt-4 text-sm md:text-base font-medium">Update Password:</label>
+            <input class="w-full border-2 border-black px-3 py-2 rounded-md text-sm md:text-base" type="password" name="password" placeholder="Enter Your Password" />
+
+            <label class="block mt-4 text-sm md:text-base font-medium">Update Address:</label>
+            <input class="w-full border-2 border-black px-3 py-2 rounded-md text-sm md:text-base" value="<%= user.address %>" type="text" name="address" placeholder="Enter Your Address" />
+
+            <label class="block mt-4 text-sm md:text-base font-medium">Update Contact:</label>
+            <input class="w-full border-2 border-black px-3 py-2 rounded-md text-sm md:text-base" value="<%= user.contact %>" type="number" name="contact" placeholder="Enter Your Contact" />
+
+            <input class="w-full bg-black text-white px-3 py-2 rounded-md mt-4 cursor-pointer hover:bg-gray-800 transition duration-200" type="submit" value="Update Profile" />
         </form>
-        
       </div>
-    <script
-      type="module"
-      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-    ></script>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   </body>
 </html>
