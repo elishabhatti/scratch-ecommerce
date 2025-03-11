@@ -10,10 +10,12 @@ const database = client.db(process.env.DBNAME);
 const productsCollection = database.collection(process.env.COLLECTIONNAME);
 
 export async function fetchProducts() {
-    try {
-      return await productsCollection.find({}).toArray();
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      return [];
-    }
+  try {
+    const products = await productsCollection.find({}).toArray();
+    console.log("Fetched Products:", products); // Debugging log
+    return products;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
   }
+}

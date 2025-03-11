@@ -7,6 +7,6 @@ export const renderShopPage = async (req, res) => {
       const orders =  await orderModel.find({userId : req.user._id})
       res.render("shop", { user: req.user, products, orders });
     } catch (error) {
-      res.status(500).send("Error loading shop page");
+      res.status(500).send("Error loading shop page", error);
     }
   };
