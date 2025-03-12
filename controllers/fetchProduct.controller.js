@@ -12,7 +12,6 @@ const productsCollection = database.collection(process.env.COLLECTIONNAME);
 export async function fetchProducts() {
   try {
     const products = await productsCollection.find({}).toArray();
-    console.log("Fetched Products:", products); // Debugging log
     return products;
   } catch (error) {
     console.error("Error fetching products:", error);

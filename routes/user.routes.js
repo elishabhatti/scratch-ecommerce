@@ -4,15 +4,15 @@ import { authenticateUser } from "../middlewares/authMiddleware.middleware.js";
 import { renderBuydedProduct } from "../controllers/renderBuyedProduct.controller.js";
 import { renderShopPage } from "../controllers/renderShopPage.controller.js";
 import { renderProductDetailsPageById } from "../controllers/renderProductDetailsById.controller.js";
-import { registerUser } from "../controllers/registerUser.controller.js";
 import { buyBagPost } from "../controllers/buyBagPost.controller.js";
-import { loginUser } from "../controllers/loginUser.controller.js";
-import { logoutUser } from "../controllers/logoutUser.controller.js";
 import { renderProfilePage } from "../controllers/renderProfileUpdatePage.controller.js";
 import { updateUserProfile } from "../controllers/updateUserProfile.controller.js";
 import { deleteProduct } from "../controllers/deleteProduct.controller.js";
 import { renderUpdateProductPage } from "../controllers/renderUpdateProfile.controller.js";
 import { updateProduct } from "../controllers/updateProduct.controller.js";
+import { registerUser } from "../controllers/auth/registerUser.controller.js";
+import { loginUser } from "../controllers/auth/loginUser.controller.js";
+import { logoutUser } from "../controllers/auth/logoutUser.controller.js";
 
 export const router = Router();
 

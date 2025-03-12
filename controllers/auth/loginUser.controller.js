@@ -1,7 +1,7 @@
-import { userModel } from "../models/user.models.js";
+import { userModel } from "../../models/user.models.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../config/SECRET_KEY.js";
+import { SECRET_KEY } from "../../config/SECRET_KEY.js";
 
 export const loginUser = async (req, res) => {
   try {
