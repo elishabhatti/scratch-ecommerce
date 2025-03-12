@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { renderIndexPage } from "../controllers/renderIndexPage.controller.js";
+import { renderIndexPage } from "../controllers/pages/renderIndexPage.controller.js";
 import { authenticateUser } from "../middlewares/authMiddleware.middleware.js";
-import { renderBuydedProduct } from "../controllers/renderBuyedProduct.controller.js";
-import { renderShopPage } from "../controllers/renderShopPage.controller.js";
-import { renderProductDetailsPageById } from "../controllers/renderProductDetailsById.controller.js";
+import { renderBuydedProduct } from "../controllers/pages/renderBuyedProduct.controller.js";
+import { renderShopPage } from "../controllers/pages/renderShopPage.controller.js";
+import { renderProductDetailsPageById } from "../controllers/pages/renderProductDetailsById.controller.js";
 import { buyBagPost } from "../controllers/orders/buyBagPost.controller.js";
-import { renderProfilePage } from "../controllers/renderProfileUpdatePage.controller.js";
+import { renderProfilePage } from "../controllers/pages/renderProfileUpdatePage.controller.js";
 import { updateUserProfile } from "../controllers/users/updateUserProfile.controller.js";
 import { renderUpdateProductPage } from "../controllers/users/renderUpdateProfile.controller.js";
 import { registerUser } from "../controllers/auth/registerUser.controller.js";

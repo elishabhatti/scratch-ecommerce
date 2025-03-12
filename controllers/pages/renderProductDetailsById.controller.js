@@ -1,4 +1,4 @@
-import { fetchProducts } from "./products/fetchProduct.controller.js";
+import { fetchProducts } from "../products/fetchProduct.controller.js";
 
 export const renderProductDetailsPageById = async (req, res) => {
   try {
