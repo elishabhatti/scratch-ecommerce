@@ -13,8 +13,7 @@ import { loginUser } from "../controllers/auth/loginUser.controller.js";
 import { logoutUser } from "../controllers/auth/logoutUser.controller.js";
 import { deleteProduct } from "../controllers/products/deleteProduct.controller.js";
 import { updateProduct } from "../controllers/products/updateProduct.controller.js";
-import { addToCart } from "../controllers/orders/addToCart.controller.js";
-import { renderCartPage } from "../controllers/pages/renderCartPage.controller.js";
+import { userModel } from "../models/user.models.js";
 
 export const router = Router();
 
@@ -35,9 +34,25 @@ router.post("/update-profile", authenticateUser, updateUserProfile);
 router.get("/delete-product/:id", authenticateUser, deleteProduct);
 router.get("/update-product/:id", authenticateUser, renderUpdateProductPage);
 router.post("/update-product/:id", authenticateUser, updateProduct);
-router.post("/add-to-cart", authenticateUser, addToCart);
-router.get("/add-to-cart", authenticateUser, renderCartPage);
 
 
+router.post("/add-to-cart", async (req, res) => {
+  const { userId, productId } = req.body;
 
+  try {
+    const user = await userModel.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
 
+    const cartItem = user.cart.find((item) => item.bagId.toString() === productId);
+    if (cartItem) {
+      cartItem.quantity += 1; // Increment quantity if already in cart
+    } else {
+      user.cart.push({ bagId: productId, quantity: 1 });
+    }
+
+    await user.save();
+    res.status(200).json({ message: "Product added to cart", cart: user.cart });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
