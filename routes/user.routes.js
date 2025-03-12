@@ -13,6 +13,8 @@ import { loginUser } from "../controllers/auth/loginUser.controller.js";
 import { logoutUser } from "../controllers/auth/logoutUser.controller.js";
 import { deleteProduct } from "../controllers/products/deleteProduct.controller.js";
 import { updateProduct } from "../controllers/products/updateProduct.controller.js";
+import { addToCart } from "../controllers/orders/addToCart.controller.js";
+import { renderCartPage } from "../controllers/pages/renderCartPage.controller.js";
 
 export const router = Router();
 
@@ -33,3 +35,9 @@ router.post("/update-profile", authenticateUser, updateUserProfile);
 router.get("/delete-product/:id", authenticateUser, deleteProduct);
 router.get("/update-product/:id", authenticateUser, renderUpdateProductPage);
 router.post("/update-product/:id", authenticateUser, updateProduct);
+router.post("/add-to-cart", authenticateUser, addToCart);
+router.get("/add-to-cart", authenticateUser, renderCartPage);
+
+
+
+

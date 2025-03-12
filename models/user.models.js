@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { connectDB } from "../config/CONNECT_DB.js";
-connectDB()
+connectDB();
 
 const userSchema = new mongoose.Schema(
   {
@@ -9,6 +9,13 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     address: { type: String },
     contact: { type: Number },
+    cart: [
+      {
+        bagId: { type: mongoose.Schema.Types.ObjectId, ref: "bags" },
+        quantity: { type: Number, required: true },
+        addedAt: { type: Date, default: Date.now },
+      },
+    ],
     orders: [
       {
         bagId: { type: mongoose.Schema.Types.ObjectId, ref: "bags" },
