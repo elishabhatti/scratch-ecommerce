@@ -7,12 +7,12 @@ import { renderProductDetailsPageById } from "../controllers/renderProductDetail
 import { buyBagPost } from "../controllers/buyBagPost.controller.js";
 import { renderProfilePage } from "../controllers/renderProfileUpdatePage.controller.js";
 import { updateUserProfile } from "../controllers/updateUserProfile.controller.js";
-import { deleteProduct } from "../controllers/deleteProduct.controller.js";
 import { renderUpdateProductPage } from "../controllers/renderUpdateProfile.controller.js";
-import { updateProduct } from "../controllers/updateProduct.controller.js";
 import { registerUser } from "../controllers/auth/registerUser.controller.js";
 import { loginUser } from "../controllers/auth/loginUser.controller.js";
 import { logoutUser } from "../controllers/auth/logoutUser.controller.js";
+import { deleteProduct } from "../controllers/products/deleteProduct.controller.js";
+import { updateProduct } from "../controllers/products/updateProduct.controller.js";
 
 export const router = Router();
 
