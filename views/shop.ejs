@@ -54,11 +54,11 @@
       <div
         class="w-full md:w-1/4 p-5 border-b md:border-b-0 md:border-r border-gray-300"
       >
-        <p class="text-xl md:text-2xl flex items-center">
+        <p class="text-lg text-blue-800 underline flex items-center">
           <ion-icon class="mr-2" name="cart-outline"></ion-icon>
-          <a href="/cart">Items Added To Cart:</a>
+          <a class="text-blue-800 underline" href="/cart">Items Added To Cart: <%= user.cart.length %> </a>
         </p>
-        <p class="text-xl md:text-2xl flex items-center">
+        <p class="text-lg text-blue-800 underline  flex items-center">
           <ion-icon class="mr-2" name="bag-handle-outline"></ion-icon>
           <a href="/buyed-products">Buyed Bags: <%= orders.length %></a>
         </p>

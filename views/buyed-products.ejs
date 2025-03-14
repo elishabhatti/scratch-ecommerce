@@ -33,9 +33,9 @@
 
   <!-- Navigation -->
   <div class="flex flex-col md:flex-row justify-between items-center my-5 text-center md:text-left">
-    <div class="flex items-center gap-2 mb-3 md:mb-0">
+    <div class="flex underline text-blue-800 items-center gap-2 mb-3 md:mb-0">
       <ion-icon name="arrow-back-outline"></ion-icon>
-      <a href="/shop" class="underline text-lg">Back to Shop</a>
+      <a href="/shop" class="text-lg">Back to Shop</a>
     </div>
     <h1 class="text-2xl md:text-3xl font-semibold">Your Orders</h1>
     <p class="text-lg font-medium">Total Orders: <%= orders.length %></p>
@@ -46,9 +46,9 @@
     <!-- Sidebar -->
     <aside class="w-full md:w-1/4 p-5 border-r border-b md:border-b-0">
       <h2 class="text-xl font-semibold mb-3">Quick Links</h2>
-      <p class="flex items-center text-lg">
+      <p class="flex underline text-blue-800 items-center text-lg">
         <ion-icon class="mr-2" name="cart-outline"></ion-icon>
-        <a href="/buyed-products">Items in Cart: <%= orders.length %></a>
+        <a href="/cart">Items in Cart: <%= user.cart.length %></a>
       </p>
       <p class="text-lg mt-2">🔥 Trending Bags</p>
       <p class="text-lg">🆕 New Bag Releases</p>
