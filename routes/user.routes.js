@@ -13,7 +13,6 @@ import { loginUser } from "../controllers/auth/loginUser.controller.js";
 import { logoutUser } from "../controllers/auth/logoutUser.controller.js";
 import { deleteProduct } from "../controllers/products/deleteProduct.controller.js";
 import { updateProduct } from "../controllers/products/updateProduct.controller.js";
-import { userModel } from "../models/user.models.js";
 
 export const router = Router();
 
@@ -34,55 +33,3 @@ router.post("/update-profile", authenticateUser, updateUserProfile);
 router.get("/delete-product/:id", authenticateUser, deleteProduct);
 router.get("/update-product/:id", authenticateUser, renderUpdateProductPage);
 router.post("/update-product/:id", authenticateUser, updateProduct);
-
-router.post("/add-to-cart", authenticateUser, async (req, res) => {
-  const { productId } = req.body;
-  try {
-    const user = await userModel.findById(req.user._id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-    const cartItem = user.cart.find((item) => item.bagId.toString() === productId);
-    if (cartItem) {
-      cartItem.quantity = 1;
-    } else {
-      user.cart.push({ bagId: productId, quantity: 1 });
-    }
-    await user.save();
-    res.redirect("/cart")
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error", error });
-  }
-});
-router.post("/remove-from-cart", authenticateUser, async (req, res) => {
-  const { productId } = req.body;
-  const userId = req.user._id; // Use req.user._id instead of req.user.id for consistency
-
-  try {
-    const user = await userModel.findByIdAndUpdate(
-      userId,
-      { $pull: { cart: { bagId: productId } } }, // Change productId to bagId
-      { new: true }
-    );
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.redirect("/cart"); // Redirect after successful removal
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error", error });
-  }
-});
-
-
-router.get("/cart", authenticateUser, async (req, res) => {
-  try {
-    const user = await userModel.findById(req.user._id).populate("cart.bagId");
-    if (!user) return res.status(404).json({ message: "User not found" });
-    res.render("cart", { user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error", error });
-  }
-});
