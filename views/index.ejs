@@ -4,32 +4,68 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Account || Login Account</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Jersey+10&family=Jersey+15&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Jersey+10&family=Jersey+15&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-  <body class="p-5 font-[Poppins] flex flex-col items-center justify-center min-h-screen bg-gray-100">
-    <div class="m-5 flex justify-start w-full">
+  <body
+    class="p-5 flex flex-col items-center justify-center min-h-screen bg-gray-100"
+  >
+    <div class="ml-15 flex justify-start w-full">
       <%- include("partials/logo") %>
     </div>
-    <div class="w-full max-w-5xl bg-white rounded-lg  flex flex-col md:flex-row justify-between gap-6">
+    <div
+      class="w-full max-w-5xl bg-white rounded-lg flex flex-col md:flex-row justify-between gap-6"
+    >
       <div class="w-full md:w-1/2">
         <form class="w-full" action="/register" method="post">
           <h1 class="text-3xl font-bold mb-4">Create Account</h1>
           <label class="block font-medium">Full Name:</label>
-          <input class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2" type="text" name="fullname" placeholder="Enter Your Full Name" />
+          <input
+            class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2"
+            type="text"
+            name="fullname"
+            placeholder="Enter Your Full Name"
+          />
           <label class="block font-medium">Email:</label>
-          <input class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2" type="email" name="email" placeholder="Enter Your Email" />
+          <input
+            class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2"
+            type="email"
+            name="email"
+            placeholder="Enter Your Email"
+          />
           <label class="block font-medium">Password:</label>
-          <input class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2" type="password" name="password" placeholder="Enter Your Password" />
+          <input
+            class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2"
+            type="password"
+            name="password"
+            placeholder="Enter Your Password"
+          />
           <label class="block font-medium">Address:</label>
-          <input class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2" type="text" name="address" placeholder="Enter Your Address" />
+          <input
+            class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2"
+            type="text"
+            name="address"
+            placeholder="Enter Your Address"
+          />
           <label class="block font-medium">Contact:</label>
-          <input class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2" type="number" name="contact" placeholder="Enter Your Contact" />
+          <input
+            class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2"
+            type="number"
+            name="contact"
+            placeholder="Enter Your Contact"
+          />
           <p>Make sure that the Number and Address are Correct :)</p>
-          <input class="w-full cursor-pointer bg-black border-2 border-black text-white px-3 py-2 rounded-sm my-2" type="submit" value="Create Account" />
+          <input
+            class="w-full cursor-pointer bg-black border-2 border-black text-white px-3 py-2 rounded-sm my-2"
+            type="submit"
+            value="Create Account"
+          />
         </form>
       </div>
       <div class="hidden md:flex items-center justify-center">
@@ -39,15 +75,35 @@
         <form class="w-full" action="/login" method="post">
           <h1 class="text-3xl font-bold mb-4">Login Account</h1>
           <label class="block font-medium">Email:</label>
-          <input class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2" type="email" name="email" placeholder="Enter Your Email" />
+          <input
+            class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2"
+            type="email"
+            name="email"
+            placeholder="Enter Your Email"
+          />
           <label class="block font-medium">Password:</label>
-          <input class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2" type="password" name="password" placeholder="Enter Your Password" />
-          <input class="w-full cursor-pointer bg-black border-2 border-black text-white px-3 py-2 rounded-sm my-2" type="submit" value="Login Account" />
+          <input
+            class="w-full border-2 text-black border-black px-3 py-2 rounded-sm my-2"
+            type="password"
+            name="password"
+            placeholder="Enter Your Password"
+          />
+          <input
+            class="w-full cursor-pointer bg-black border-2 border-black text-white px-3 py-2 rounded-sm my-2"
+            type="submit"
+            value="Login Account"
+          />
         </form>
       </div>
     </div>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
   </body>
 </html>
