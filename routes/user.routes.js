@@ -39,3 +39,6 @@ router.post("/update-product/:id", authenticateUser, updateProduct);
 router.post("/add-to-cart", authenticateUser, addToCart);
 router.post("/remove-from-cart", authenticateUser, removeFromCart);
 router.get("/cart", authenticateUser, renderCartPage);
+router.get("*", (req, res) => {
+  res.status(404).render("404");
+});

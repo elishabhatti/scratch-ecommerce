@@ -6,6 +6,8 @@
     <title>Shopping Cart</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="../stylesheets/style.css">
+
     <link
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
@@ -54,11 +56,11 @@
       <div
         class="w-full md:w-1/4 p-5 border-b md:border-b-0 md:border-r border-gray-300"
       >
-        <p class="text-xl md:text-2xl flex items-center">
+        <p class="text-lg underline text-blue-800  flex items-center">
           <ion-icon name="arrow-back-outline"></ion-icon>
           <a href="/shop">Go Back:</a>
         </p>
-        <p class="text-xl md:text-2xl flex items-center">
+        <p class="text-lg underline text-blue-800 flex items-center">
           <ion-icon class="mr-2" name="cart-outline"></ion-icon>
           <a href="/cart">Items in Cart: <%= user.cart.length %></a>
         </p>
