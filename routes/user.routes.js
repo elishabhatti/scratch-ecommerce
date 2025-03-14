@@ -53,15 +53,33 @@ router.post("/add-to-cart", authenticateUser, async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 });
+router.post("/remove-from-cart", authenticateUser, async (req, res) => {
+  const { productId } = req.body;
+  const userId = req.user._id; // Use req.user._id instead of req.user.id for consistency
+
+  try {
+    const user = await userModel.findByIdAndUpdate(
+      userId,
+      { $pull: { cart: { bagId: productId } } }, // Change productId to bagId
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.redirect("/cart"); // Redirect after successful removal
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
 
 router.get("/cart", authenticateUser, async (req, res) => {
   try {
     const user = await userModel.findById(req.user._id).populate("cart.bagId");
-
     if (!user) return res.status(404).json({ message: "User not found" });
-
-    console.log(user.cart); // Debugging
-
     res.render("cart", { user });
   } catch (error) {
     console.error(error);
