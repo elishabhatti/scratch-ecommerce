@@ -11,7 +11,7 @@
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../stylesheets/style.css">
+    <link rel="stylesheet" href="../stylesheets/style.css" />
   </head>
   <body class="font-poppins">
     <div
@@ -87,8 +87,25 @@
             <p class="text-lg md:text-xl font-semibold">
               <%= item.bagId.title %>
             </p>
-            <p class="text-gray-600">Price: $<%= item.bagId.price %></p>
+            <div
+              class="flex justify-between items-center my-2 text-base md:text-lg"
+            >
+              <p class="text-green-800">
+                Price: <%= (item.bagId.price).toFixed(2) %>$
+              </p>
+              <% if (item.bagId.originalPrice) { %>
+              <p class="line-through text-gray-500">
+                <%= (item.bagId.originalPrice).toFixed(2) %>$
+              </p>
+              <% } %>
+            </div>
             <p class="text-gray-600">Quantity: <%= item.quantity %></p>
+            <a
+              href="/product-details/<%= item.bagId._id %>"
+              class="block mb-2 bg-black text-white text-center py-2 rounded-md hover:bg-gray-800 transition"
+            >
+              Buy Bag
+            </a>
             <form action="/remove-from-cart" method="POST">
               <input
                 type="hidden"
@@ -97,16 +114,10 @@
               />
               <button
                 type="submit"
-                class="block w-full bg-red-600 text-white text-center py-2 rounded-md hover:bg-red-800 transition mt-2"
+                class="block w-full bg-red-600 text-white text-center py-2 rounded-md hover:bg-red-800 transition"
               >
                 Remove
               </button>
-              <a
-                href="/product-details/<%= item.bagId._id %>"
-                class="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-800 transition mt-2"
-              >
-                Buy Bag
-              </a>
             </form>
           </div>
         </div>
