@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { bagModel } from "./bags.models.js";
 import { connectDB } from "../config/CONNECT_DB.js";
 connectDB();
 

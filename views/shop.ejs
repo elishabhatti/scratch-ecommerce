@@ -58,7 +58,10 @@
             <a href="/product-details/<%= product._id %>" class="block mb-2 bg-black text-white text-center py-2 rounded-md hover:bg-gray-800 transition">Buy Product</a>
             <form action="/add-to-cart" method="POST">
               <input type="hidden" name="userId" value="<%= user._id %>">
-              <input name="image" value="<%= product.image %>">
+              <input type="hidden" name="image" value="<%= product.image %>">
+              <input type="hidden" name="title" value="<%= product.title %>">
+              <input type="hidden" name="price" value="<%= product.price %>">
+              <input type="hidden" name="originalPrice" value="<%= product.originalPrice %>">
               <input type="hidden" name="productId" value="<%= product._id %>">
               <button type="submit" class="block w-full bg-black text-white text-center py-2 rounded-md hover:bg-gray-800 transition">
                 Add To Cart

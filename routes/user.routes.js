@@ -35,17 +35,17 @@ router.get("/delete-product/:id", authenticateUser, deleteProduct);
 router.get("/update-product/:id", authenticateUser, renderUpdateProductPage);
 router.post("/update-product/:id", authenticateUser, updateProduct);
 
-
-router.post("/add-to-cart", async (req, res) => {
-  const { userId, productId } = req.body;
+router.post("/add-to-cart", authenticateUser, async (req, res) => {
+  const { productId } = req.body;
 
   try {
-    const user = await userModel.findById(userId);
+    const user = await userModel.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const cartItem = user.cart.find((item) => item.bagId.toString() === productId);
+
     if (cartItem) {
-      cartItem.quantity += 1; // Increment quantity if already in cart
+      cartItem.quantity += 1;
     } else {
       user.cart.push({ bagId: productId, quantity: 1 });
     }
@@ -53,6 +53,22 @@ router.post("/add-to-cart", async (req, res) => {
     await user.save();
     res.status(200).json({ message: "Product added to cart", cart: user.cart });
   } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+router.get("/cart", authenticateUser, async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id).populate("cart.bagId");
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    console.log(user.cart); // Debugging
+
+    res.render("cart", { user });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error", error });
   }
 });
