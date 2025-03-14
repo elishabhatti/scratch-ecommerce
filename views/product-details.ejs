@@ -4,16 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product Details</title>
-    <link rel="stylesheet" href="../stylesheets/style.css">
-    
-    <!-- Google Fonts -->
+    <!-- Tailwind CSS -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Jersey+10&family=Jersey+15&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="../stylesheets/style.css" />
   </head>
   <body>
     <!-- Header Section -->
@@ -26,73 +23,130 @@
           <%- include("partials/logout") %>
         </div>
         <form action="/update-profile" method="get">
-          <button type="submit" class="bg-white border-2 border-black rounded-full p-3">
-            <ion-icon class="text-3xl text-black" name="person-outline"></ion-icon>
+          <button
+            type="submit"
+            class="bg-white border-2 border-black rounded-full p-3"
+          >
+            <ion-icon
+              class="text-3xl text-black"
+              name="person-outline"
+            ></ion-icon>
           </button>
         </form>
       </div>
     </div>
-    
+
     <!-- Navigation Back Link -->
     <div class="flex mt-3 gap-3 items-center">
       <ion-icon name="arrow-back-outline"></ion-icon>
       <a class="underline" href="/shop">Go Back</a>
     </div>
-    
+
     <!-- Product Details -->
     <section class="text-center mt-5">
       <h1 class="text-4xl font-bold">Product Details</h1>
     </section>
-    
+
     <main class="mt-5 flex flex-wrap justify-center gap-5">
       <!-- Product Image -->
       <div>
-        <img class="w-[500px] object-cover rounded-md border border-gray-300" src="<%= product.image %>" alt="Product Image" />
+        <img
+          class="w-[500px] object-cover rounded-md border border-gray-300"
+          src="<%= product.image %>"
+          alt="Product Image"
+        />
       </div>
-      
+
       <!-- Product Info -->
       <div class="w-[500px]">
         <h1 class="text-3xl font-semibold mb-3">Price Breakdown</h1>
         <form action="/buy-bag" method="post">
           <input hidden name="image" type="text" value="<%= product.image %>" />
           <input hidden name="userId" type="text" value="<%= user._id %>" />
-          <input hidden name="productId" type="text" value="<%= product._id %>" />
-          
+          <input
+            hidden
+            name="productId"
+            type="text"
+            value="<%= product._id %>"
+          />
+
           <div class="flex gap-2 items-center">
             <label class="font-medium">Title:</label>
-            <input class="bg-transparent border-none" type="text" value="<%= product.title %>" name="title" readonly />
+            <input
+              class="bg-transparent border-none"
+              type="text"
+              value="<%= product.title %>"
+              name="title"
+              readonly
+            />
           </div>
-          
+
           <div class="flex gap-2 items-center">
             <label class="font-medium">Price:</label>
-            <input class="bg-transparent border-none" type="text" value="<%= (product.price).toFixed(2) %>$" name="price" readonly />
+            <input
+              class="bg-transparent border-none"
+              type="text"
+              value="<%= (product.price).toFixed(2) %>$"
+              name="price"
+              readonly
+            />
           </div>
-          
+
           <p class="mt-2">Shipping Fee: $3.00</p>
           <p>Platform Fee: Free</p>
-          
+
           <label class="block font-medium mt-3">Quantity:</label>
-          <input class="w-full border-2 border-black px-3 py-2" type="text" required placeholder="Enter Quantity" name="quantity" />
-          
+          <input
+            class="w-full border-2 border-black px-3 py-2"
+            type="text"
+            required
+            placeholder="Enter Quantity"
+            name="quantity"
+          />
+
           <label class="block font-medium mt-3">Payment Method:</label>
-          <input class="w-full border-2 border-black px-3 py-2" type="text" required placeholder="Enter Payment Method" name="paymentMethod" />
-          
+          <input
+            class="w-full border-2 border-black px-3 py-2"
+            type="text"
+            required
+            placeholder="Enter Payment Method"
+            name="paymentMethod"
+          />
+
           <label class="block font-medium mt-3">Total Amount:</label>
-          <input class="bg-transparent border-none" type="text" id="productPrice" readonly data-price="<%= product.price %>" value="<%= (product.price + 3).toFixed(2) %>$" name="totalAmount" />
-          
-          <input class="w-full bg-black text-white py-3 mt-5 rounded-md hover:bg-gray-800 transition" type="submit" value="Buy Now" />
+          <input
+            class="bg-transparent border-none"
+            type="text"
+            id="productPrice"
+            readonly
+            data-price="<%= product.price %>"
+            value="<%= (product.price + 3).toFixed(2) %>$"
+            name="totalAmount"
+          />
+
+          <input
+            class="w-full bg-black text-white py-3 mt-5 rounded-md hover:bg-gray-800 transition"
+            type="submit"
+            value="Buy Now"
+          />
         </form>
       </div>
     </main>
-    
+
     <!-- Footer Section -->
     <footer class="text-center py-5 mt-10 border-t border-gray-300">
       <p class="text-gray-600">© 2025 Shopping Bags. All Rights Reserved.</p>
     </footer>
-    
+
     <!-- Icons -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
     <script defer src="/javascripts/product-details.js"></script>
   </body>
-</html> 
+</html>

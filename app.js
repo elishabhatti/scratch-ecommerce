@@ -1,7 +1,9 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import { router } from "./routes/user.routes.js";
+// import { router } from "./routes/user.routes.js";
+// import userRouter from "./routes/userRouter.routes.js";
+import { router } from "./routes/indexRouter.routes.js";
 import { SECRET_KEY } from "./config/SECRET_KEY.js";
 
 const app = express();
