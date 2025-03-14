@@ -9,6 +9,9 @@ export const router = Router();
 
 // Home Page Route
 router.get("/", renderIndexPage);
+router.get("/comment-on-product", (req, res) => {
+  res.render("commentOnProduct", { user: req.user });
+});
 
 // Use Modular Route Files
 router.use(authRouter);
