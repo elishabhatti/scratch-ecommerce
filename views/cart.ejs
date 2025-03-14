@@ -4,66 +4,118 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopping Cart</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="font-poppins">
-    <div class="flex flex-col md:flex-row items-center justify-between p-4 border-b border-gray-300">
+    <div
+      class="flex flex-col md:flex-row items-center justify-between p-4 border-b border-gray-300"
+    >
       <%- include("partials/logo") %>
-      <div class="profile flex flex-col md:flex-row items-center text-center md:text-left">
+      <div
+        class="profile flex flex-col md:flex-row items-center text-center md:text-left"
+      >
         <div class="mx-2 mb-3 md:mb-0">
-          <h1 class="text-xl md:text-2xl font-semibold">Welcome, <%= user.fullname %>!</h1>
-          <p class="text-gray-600 text-sm md:text-base">Explore the best bags for every occasion.</p>
+          <h1 class="text-xl md:text-2xl font-semibold">
+            Welcome, <%= user.fullname %>!
+          </h1>
+          <p class="text-gray-600 text-sm md:text-base">
+            Explore the best bags for every occasion.
+          </p>
           <%- include("partials/logout") %>
         </div>
         <form action="/update-profile" method="get">
-          <button type="submit" class="border-2 border-black rounded-full p-3 flex justify-center items-center">
-            <ion-icon class="text-2xl md:text-3xl text-black" name="person-outline"></ion-icon>
+          <button
+            type="submit"
+            class="border-2 border-black rounded-full p-3 flex justify-center items-center"
+          >
+            <ion-icon
+              class="text-2xl md:text-3xl text-black"
+              name="person-outline"
+            ></ion-icon>
           </button>
         </form>
       </div>
     </div>
 
-    <h1 class="text-2xl md:text-4xl text-center mt-5 px-4">Your Shopping Cart</h1>
-    <p class="text-sm md:text-lg text-center text-gray-600 mt-2 px-4">Review your selected items before checkout.</p>
+    <h1 class="text-2xl md:text-4xl text-center mt-5 px-4">
+      Your Shopping Cart
+    </h1>
+    <p class="text-sm md:text-lg text-center text-gray-600 mt-2 px-4">
+      Review your selected items before checkout.
+    </p>
 
     <div class="flex flex-col md:flex-row w-full p-5 gap-5">
-      <div class="w-full md:w-1/4 p-5 border-b md:border-b-0 md:border-r border-gray-300">
+      <div
+        class="w-full md:w-1/4 p-5 border-b md:border-b-0 md:border-r border-gray-300"
+      >
         <p class="text-xl md:text-2xl flex items-center">
           <ion-icon class="mr-2" name="cart-outline"></ion-icon>
-          <a href="/cart-products">Items in Cart: <%= user.cart.length %></a>
+          <a href="/cart">Items in Cart: <%= user.cart.length %></a>
         </p>
         <p class="text-lg md:text-2xl font-semibold mt-4">Trending Bags</p>
-        <p class="text-gray-600 text-sm md:text-base">Check out the hottest picks this season.</p>
+        <p class="text-gray-600 text-sm md:text-base">
+          Check out the hottest picks this season.
+        </p>
         <p class="text-lg md:text-2xl font-semibold mt-4">New Arrivals</p>
-        <p class="text-gray-600 text-sm md:text-base">Discover the latest bag collections.</p>
+        <p class="text-gray-600 text-sm md:text-base">
+          Discover the latest bag collections.
+        </p>
       </div>
 
-      <div class="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div
+        class="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+      >
         <% user.cart.forEach(item => { %>
-          <div class="border-2 border-black rounded-md shadow-md overflow-hidden">
-            <img class="w-full h-60 object-cover" src="<%= item.bagId.image %>" alt="<%= item.bagId.title %>">
-            <div class="p-4">
-              <p class="text-lg md:text-xl font-semibold"><%= item.bagId.title %></p>
-              <p class="text-gray-600">Price: $<%= item.bagId.price %></p>
-              <p class="text-gray-600">Quantity: <%= item.quantity %></p>
-              <form action="/remove-from-cart" method="POST">
-                <input type="hidden" name="productId" value="<%= item.bagId._id %>">
-                <button type="submit" class="block w-full bg-red-600 text-white text-center py-2 rounded-md hover:bg-red-800 transition mt-2">Remove</button>
-              </form>
-            </div>
+        <div class="border-2 border-black rounded-md shadow-md overflow-hidden">
+          <img
+            class="w-full h-60 object-cover"
+            src="<%= item.bagId.image %>"
+            alt="<%= item.bagId.title %>"
+          />
+          <div class="p-4">
+            <p class="text-lg md:text-xl font-semibold">
+              <%= item.bagId.title %>
+            </p>
+            <p class="text-gray-600">Price: $<%= item.bagId.price %></p>
+            <p class="text-gray-600">Quantity: <%= item.quantity %></p>
+            <form action="/remove-from-cart" method="POST">
+              <input
+                type="hidden"
+                name="productId"
+                value="<%= item.bagId._id %>"
+              />
+              <button
+                type="submit"
+                class="block w-full bg-red-600 text-white text-center py-2 rounded-md hover:bg-red-800 transition mt-2"
+              >
+                Remove
+              </button>
+            </form>
           </div>
+        </div>
         <% }) %>
       </div>
     </div>
 
-    <footer class="text-center py-5 mt-10 border-t border-gray-300 text-sm md:text-base">
+    <footer
+      class="text-center py-5 mt-10 border-t border-gray-300 text-sm md:text-base"
+    >
       <p class="text-gray-600">© 2025 Shopping Bags. All Rights Reserved.</p>
     </footer>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
   </body>
 </html>
