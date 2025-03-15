@@ -13,10 +13,8 @@ router.get("/", renderIndexPage);
 
 router.get("/comment-on-product/:orderId", async (req, res) => {
   try {
-    const order = await orderModel.findById(req.params.orderId);    
-    console.log(order.comments);
-    
-    res.render("commentOnProduct", { id: order._id, userId: order.userId });
+    const order = await orderModel.findById(req.params.orderId);        
+    res.render("commentOnProduct", { id: order._id, userId: order.userId, order });
   } catch (error) {
     res.status(500).send("Server Error");
   }
