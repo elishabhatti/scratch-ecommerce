@@ -12,6 +12,4 @@ userRouter.post("/update-profile", authenticateUser, updateUserProfile);
 userRouter.get("/comment-on-product/:orderId", rednerCommentPage);
 userRouter.post("/submit-comment", commentOnPage);
 
-router.us
-
 export default userRouter;
